@@ -68,10 +68,13 @@
                 <br><br>
             See our videos <a href="https://www.youtube.com/@thehunchtrail">here</a> on Youtube.</p>
         </div>
-        
         <footer>
-            <p>Copyright &copy; 2026 The Hunch Trail &reg;<br>17 Ringarooma Circuit,<br>West Hoxton, NSW 2171<br>ABN: 40 337 610 019</p>
+            <p>Copyright &copy; 2025-<span id="thisYear"></span> The Hunch Trail &reg;<br>17 Ringarooma Circuit,<br>West Hoxton, NSW 2171<br>ABN: 40 337 610 019</p>
         </footer>
     </div>
 </body>
+<script>
+    var currentYear = new Date().getFullYear();
+    document.getElementById("thisYear").innerHTML = String(currentYear);
+</script>
 </html>
