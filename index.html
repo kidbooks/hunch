@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No-Scroll Website</title>
+    <style>
+        /* 1. Ensure body and html take up exactly the viewport height */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* This stops scrollbars */
+            font-family: sans-serif;
+        }
+
+        /* 2. Main container that fills the screen */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* Viewport Height */
+            width: 100vw;  /* Viewport Width */
+        }
+
+        /* 3. Header Styling */
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        /* 4. Content Area: Takes up remaining space */
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+
+        /* 5. Footer Styling */
+        footer {
+            background-color: #ddd;
+            text-align: center;
+            padding: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <h1>My Static Page</h1>
+        </header>
+        
+        <div class="content">
+            <p>This content fits perfectly without scrolling.</p>
+        </div>
+        
+        <footer>
+            <p>&copy; 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
