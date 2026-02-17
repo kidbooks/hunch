@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>No-Scroll Website</title>
+    <title>The Hunch Trail</title>
     <style>
         /* 1. Ensure body and html take up exactly the viewport height */
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
-            overflow: hidden; /* This stops scrollbars */
+            overflow: scroll; /* This stops scrollbars */
             font-family: sans-serif;
         }
 
@@ -25,22 +25,29 @@
         /* 3. Header Styling */
         header {
             background-color: #333;
-            color: white;
+            color: #B6B6B6;
             padding: 1rem;
             text-align: center;
         }
 
         /* 4. Content Area: Takes up remaining space */
         .content {
+            color: #B6B6B6;
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
             background-color: #f4f4f4;
+            margin: 10%;
+        }
+
+        #plswait {
+            color: #E97451;
         }
 
         /* 5. Footer Styling */
         footer {
+            color: #B6B6B6;
             background-color: #ddd;
             text-align: center;
             padding: 0.5rem;
@@ -50,15 +57,19 @@
 <body>
     <div class="main-container">
         <header>
-            <h1>My Static Page</h1>
+            <h1>Welcome to The Hunch Trail</h1>
         </header>
         
         <div class="content">
-            <p>This content fits perfectly without scrolling.</p>
+            <p>To request a quote for the assessment of an artwork that you are interested in buying or selling, complete <a href ="https://stripe.com/au/payments/payment-links">this checkout form</a> on Stripe, in which you will provide your email address and contact phone number, along with payment of the quotation fee, which will be displayed in your local currency. Within 48 hours of your payment, one of our staff members will contact you to discuss the details of your artwork to provide a full quotation for the assessment service. <br>&nbsp&nbsp&nbsp&nbsp&nbsp<span id="plswait">The Stripe payment link will appear here shortly. Your patience is appreciated.</span>
+                <br><br>
+            Click here to buy <a href="https://www.amazon.com/Nickys-Secret-Christmas-Bany-Jaya/dp/0648964647/">Nicky's Secret: A Christmas Story</a> worldwide on Amazon. Just visit the local Amazon site for your country.
+                <br><br>
+            See our videos on Youtube, <a href="https://www.youtube.com/@thehunchtrail">here</a></p>
         </div>
         
         <footer>
-            <p>&copy; 2026</p>
+            <p>The Hunch Trail &copy; 2026<br>17 Ringarooma Circuit,<br>West Hoxton, NSW 2171<br>ABN: 40 337 610 019</p>
         </footer>
     </div>
 </body>
