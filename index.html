@@ -172,6 +172,11 @@
 								if (any_modal_open) {
 									found = true;
 									window.location.hash = "modalopen";
+									window.addEventListener('popstate', function() {
+										// This listener runs only one time and listens for when the back button is pressed (problem is that it could run due to other events too)
+										document.querySelector(".poptrox-overlay").style.display = 'none';
+										// any_modal.style.display = 'none';
+									}, { once: true });
 								}
 							}
 							// var modal_close_button = document.querySelector(".closer");
