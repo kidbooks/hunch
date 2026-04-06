@@ -588,7 +588,7 @@ input, select, textarea {
 		-webkit-transition: color 0.2s ease-in-out;
 		-ms-transition: color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out;
-		color: #98c593;
+		/* color: #98c593; */
 	}
 
 	sub {
@@ -2055,7 +2055,7 @@ input, select, textarea {
 		}
 
 			.main.dark a {
-				color: inherit;
+				/* color: inherit; */
 			}
 
 			.main.dark .button.style2 {
@@ -2186,7 +2186,7 @@ input, select, textarea {
 		}
 
 		#footer a {
-			color: inherit;
+			/* color: inherit; */
 		}
 
 			#footer a:hover {
@@ -2309,4 +2309,11 @@ input, select, textarea {
 				padding: 1em 1em 2em 1em;
 			}
 
+		}
+
+		/* Banadded */
+
+		.specialColour {
+			font-family: Times New Roman;
+			color: #6e3228;
 		}
