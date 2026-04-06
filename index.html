@@ -174,12 +174,12 @@
 									window.location.hash = "modalopen";
 								}
 							}
-							var modal_close_button = document.querySelector(".closer");
-							if (modal_close_button) {
-								modal_close_button.addEventListener('click', function(event) {
-									history.back(); // Manually goes back to remove the hash								
-								});
-							}
+							// var modal_close_button = document.querySelector(".closer");
+							// if (modal_close_button) {
+							// 	modal_close_button.addEventListener('click', function(event) {
+							// 		history.back(); // Manually goes back to remove the hash								
+							// 	});
+							// }
 						});
 					});
 					observer.observe(doc, { childList: true, subtree: true });
