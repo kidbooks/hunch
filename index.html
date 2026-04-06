@@ -153,6 +153,38 @@
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script>
+				(function(doc,found) {//Fixing the problem of the back button being touched when any modals open by applying a hash to the URL
+					var observer = new MutationObserver(function(mutations) {
+						mutations.forEach(function(mutation) {
+							var any_modal = document.querySelector(".poptrox-popup");
+							if (any_modal) {
+								var modal_style = window.getComputedStyle(any_modal);
+								var any_modal_open = false;
+								if (modal_style.display === 'inline-block') {
+									any_modal_open = true;
+								}
+								if (found && !any_modal_open) {
+									// Modal was there but mutation observor detected that it is now gone
+									found = false;
+									history.back(); // Manually goes back to remove the hash
+								}
+								if (any_modal_open) {
+									found = true;
+									window.location.hash = "modalopen";
+								}
+							}
+							var modal_close_button = document.querySelector(".closer");
+							if (modal_close_button) {
+								modal_close_button.addEventListener('click', function(event) {
+									history.back(); // Manually goes back to remove the hash								
+								});
+							}
+						});
+					});
+					observer.observe(doc, { childList: true, subtree: true });
+				})(document,false);
+			</script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
