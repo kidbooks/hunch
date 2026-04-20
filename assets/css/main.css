@@ -2050,6 +2050,10 @@ input, select, textarea {
 				background: #f5f6f7;
 			}
 
+		.style3mods {
+			padding-top: 0 !important;
+		}
+
 		.main.dark {
 			color: #ffffff;
 		}
