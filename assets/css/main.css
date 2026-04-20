@@ -7,7 +7,7 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
-html, body, div, span, applet, object,
+html, body, div, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
 pre, a, abbr, acronym, address, big, cite,
 code, del, dfn, em, img, ins, kbd, q, s, samp,
@@ -642,7 +642,7 @@ input, select, textarea {
 
 				.box.style2 {
 					padding: 1.5em 1.25em 1.5em 1.25em;
-					background-color: rgba(255, 255, 255, 0.9);
+					background-color: rgba(255, 255, 255, 0.75);
 				}
 
 		}
@@ -2314,6 +2314,12 @@ input, select, textarea {
 		/* Banadded */
 
 		.specialColour {
+
 			font-family: Times New Roman;
 			color: #6e3228;
+
+			@media screen and (max-width: 736px) {
+				font-size: 15px;
+			}
+
 		}
