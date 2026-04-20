@@ -2319,7 +2319,7 @@ input, select, textarea {
 			color: #6e3228;
 
 			@media screen and (max-width: 736px) {
-				font-size: 13px !important;
+				font-size: 15px !important;
 			}
 
 		}
