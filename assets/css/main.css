@@ -2327,3 +2327,14 @@ input, select, textarea {
 			}
 
 		}
+
+		figure img {
+			width: 100%;    /* Ensures the image scales down with the figure container */
+			height: auto;   /* Maintains the image's original aspect ratio */
+		}
+
+		figure figcaption {
+			font-size: 12px;
+			line-height: 1.1 !important;
+			margin-bottom: 25px;
+		}
