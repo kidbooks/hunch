@@ -2338,3 +2338,12 @@ input, select, textarea {
 			line-height: 1.1 !important;
 			margin-bottom: 25px;
 		}
+
+		.justifiedText {
+			text-align: justify !important;
+		}
+
+
+
+
+
