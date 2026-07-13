@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Form Received</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="https://hunchtrail.com">The Hunch Trail<sup>TM</sup></a></h1>
+				<nav>
+					<ul>
+						<li><a href="https://hunchtrail.com/#intro">Welcome</a></li>
+						<li><a href="#pareidolia">Artists Hide Things</a></li>
+						<li><a href="#one">About Me</a></li>
+						<li><a href="#two">Nicky's Secret</a></li>
+						<li><a href="#work">Art Discovery Service</a></li>
+						<li><a href="#faq">FAQ</a></li>
+						<li><a href="#contact">Contact</a></li>
+					</ul>
+				</nav>
+			</header>
+
+			<section class="main style3 primary style3mods">
+				<div class="content justifiedText">
+					<br><br>
+					<header>
+						<h2>THANK YOU FOR YOUR MESSAGE</h2>
+					</header>
+						<p>
+							We have received your contact form submission. One of our team members will reply to you within 2 business days. To return to the homepage, <a href="https://hunchtrail.com">CLICK HERE</a>
+						</p>
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<footer id="footer">
+
+				<!-- Social Media Icons -->
+					<!-- <ul class="icons">
+						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+						<li><a href="#" class="icon brands fa-pinterest"><span class="label">Pinterest</span></a></li>
+						ADD YOUTUBE ALSO
+					</ul> -->
+
+				<!-- Copyright statement and business contact address -->
+					<ul>
+						<li>Copyright &copy; 2025-<span id="thisYear"></span> The Hunch Trail<sup>TM</sup><br>15 Kendall Street, C/O B94641<br>Clyde NSW 2142 Australia<br>ABN: 40 337 610 019</li>
+					</ul>
+
+				<!-- TOS -->
+					<ul>
+						<a href="terms.html">Terms of Service</a>
+					</ul>
+
+				<!-- Credit -->
+					<ul class="menu">
+						<li>Design: Big Picture by <a href="https://html5up.net">HTML5 UP</a> | @ajlkn</li>
+					</ul>
+
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script>
+				(function(doc,found) {//Fixing the problem of the back button being touched when any modals open by applying a hash to the URL
+					var observer = new MutationObserver(function(mutations) {
+						mutations.forEach(function(mutation) {
+							var any_modal = document.querySelector(".poptrox-popup");
+							if (any_modal) {
+								var modal_style = window.getComputedStyle(any_modal);
+								var any_modal_open = false;
+								if (modal_style.display === 'inline-block') {
+									any_modal_open = true;
+								}
+								if (found && !any_modal_open) {
+									// Modal was there but mutation observor detected that it is now gone
+									found = false;
+									history.back(); // Manually goes back to remove the hash
+								}
+								if (any_modal_open) {
+									found = true;
+									window.location.hash = "modalopen";
+									window.addEventListener('popstate', function() {
+										// This listener runs only one time and listens for when the back button is pressed (problem is that it could run due to other events too)
+										document.querySelector(".poptrox-overlay").style.display = 'none';
+										// any_modal.style.display = 'none';
+									}, { once: true });
+								}
+							}
+						});
+					});
+					observer.observe(doc, { childList: true, subtree: true });
+				})(document,false);
+			</script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script>
+				var currentYear = new Date().getFullYear();
+				document.getElementById("thisYear").innerHTML = String(currentYear);
+			</script>
+
+	</body>
+</html>
