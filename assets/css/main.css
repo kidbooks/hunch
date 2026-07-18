@@ -2109,7 +2109,8 @@ input, select, textarea {
 		@media screen and (max-width: 736px) {
 
 			.main > .content br {
-				/* display: none; */ They originally had this as display none and my br tags all failed to render a new line
+				/* display: none; */ 
+				/* They originally had this as display none and my br tags all failed to render a new line */
 				display: inline;
 			}
 
