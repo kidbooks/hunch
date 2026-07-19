@@ -1915,6 +1915,11 @@ input, select, textarea {
 				padding-top: 2.5em;
 			}
 
+			iframe {
+				width: 392px;
+				height: 221px;
+			}
+
 		}
 
 /* Main */
@@ -2159,6 +2164,11 @@ input, select, textarea {
 
 			.main > .content {
 				max-width: calc(100% - 1.5em);
+			}
+
+			iframe {
+			  	width: 308px;
+			 	height: 173px;
 			}
 
 		}
