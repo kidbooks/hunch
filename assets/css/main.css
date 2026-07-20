@@ -566,10 +566,20 @@ input, select, textarea {
 		letter-spacing: -0.05em;
 	}
 
+	.trademark {
+		font-size: 0.35em;
+		top: -1.75em;
+	}
+
 	@media screen and (max-width: 736px) {
 
 		h2 {
-			font-size: 1.5em;
+			font-size: 0.5em;
+		}
+
+		.trademark {
+			font-size: 0.35em;
+			top: -1.8em;
 		}
 
 	}
@@ -1849,6 +1859,11 @@ input, select, textarea {
 
 			#header h1 a {
 				font-size: 1.25em;
+			}
+
+			#header h1 .headerTM {
+				font-size: 0.5em;
+				top: -1.1em;
 			}
 
 		#header nav {
