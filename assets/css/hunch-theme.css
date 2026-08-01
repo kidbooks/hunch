@@ -1,0 +1,183 @@
+/* ============================================================
+   THE HUNCH TRAIL — SHARED DESIGN SYSTEM
+   Used by every page on the site (index, terms, privacy,
+   bookshop_links, form_received). Page-specific styles live in
+   a <style> block in each page; this file is the common base:
+   tokens, reset, header, footer, buttons, and a few components
+   reused across pages (page banners, prose/legal typography).
+============================================================ */
+
+:root{
+	--ink:#1B1712;
+	--ink-soft:#3A332A;
+	--parchment:#EFE6D3;
+	--parchment-dim:#E4D8BE;
+	--parchment-deep:#DCCEAF;
+	--gold:#B98A32;
+	--gold-light:#D1A550;
+	--oxblood:#7A2E27;
+	--verdigris:#5C6B58;
+	--white:#FFFFFF;
+	--line:rgba(27,23,18,0.16);
+	--line-dark:rgba(239,230,211,0.22);
+	--shadow:0 18px 40px rgba(20,16,10,0.22);
+	--radius:3px;
+	--maxw:1120px;
+	--font-display:'Fraunces', Georgia, serif;
+	--font-body:'Libre Franklin', -apple-system, BlinkMacSystemFont, sans-serif;
+	--font-mono:'IBM Plex Mono', 'Courier New', monospace;
+	--font-brand:'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+	--ease:cubic-bezier(.2,.7,.2,1);
+	--header-h:76px;
+}
+
+/* ---------- Reset ---------- */
+*,*::before,*::after{box-sizing:border-box;}
+/* Offsets anchor-jump targets so the sticky header never covers the
+   top of the section being scrolled to (fixes overshoot on jump links). */
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 24px);}
+body{margin:0;background:var(--parchment);color:var(--ink-soft);font-family:var(--font-body);font-weight:400;line-height:1.65;font-size:1.0625rem;-webkit-font-smoothing:antialiased;}
+img{max-width:100%;display:block;}
+a{color:inherit;}
+h1,h2,h3,h4{font-family:var(--font-display);color:var(--ink);font-weight:600;line-height:1.08;margin:0 0 .5em;letter-spacing:-0.01em;}
+p{margin:0 0 1.15em;}
+p:last-child{margin-bottom:0;}
+ul{margin:0;padding:0;}
+button{font-family:inherit;}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
+@media (prefers-reduced-motion: reduce){
+	*{animation-duration:0.001ms !important;transition-duration:0.001ms !important;scroll-behavior:auto !important;}
+}
+
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--ink);padding:.8em 1.2em;z-index:9999;font-family:var(--font-mono);font-size:.8rem;}
+.skip-link:focus{left:1rem;top:1rem;}
+
+/* ---------- Utility ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.5rem;}
+.eyebrow{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;color:var(--gold);display:inline-flex;align-items:center;gap:.6em;margin-bottom:1.1em;}
+.eyebrow::before{content:"";width:1.6em;height:1px;background:var(--gold);display:inline-block;}
+.section-dark .eyebrow{color:var(--gold-light);}
+.mark{color:var(--oxblood);font-weight:600;}
+.section-dark .mark{color:var(--gold-light);}
+.lede{font-size:1.2rem;color:var(--ink-soft);max-width:62ch;}
+/* Item 1: text-columns previously capped these paragraphs at 70ch,
+   which left them visibly narrower than the other full-width elements
+   in the same sections (.steps, .price-note, .exhibit-grid,
+   .proof-grid all have no such cap). The cap is removed here so these
+   paragraphs share the same right margin as everything else, per
+   explicit instruction. Trade-off worth knowing: on wide desktop
+   screens this produces lines of ~120+ characters, well past the
+   ~65-75 character range usually considered comfortable to read. */
+.center-head{max-width:640px;}
+hr.rule{border:none;border-top:1px solid var(--line);margin:2.4rem 0;}
+
+section{padding:clamp(3.5rem,7vw,6.5rem) 0;}
+.section-dark{background:var(--ink);color:rgba(239,230,211,0.86);}
+.section-dark h2,.section-dark h3{color:var(--parchment);}
+.section-alt{background:var(--parchment-dim);}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;font-family:var(--font-mono);font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;text-decoration:none;padding:.95em 1.6em;border-radius:var(--radius);border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:transform .18s var(--ease),box-shadow .18s var(--ease),background-color .18s var(--ease);}
+.btn:hover{transform:translateY(-2px);}
+.btn-primary{background:var(--gold);color:var(--ink);box-shadow:0 10px 22px rgba(185,138,50,0.35);}
+.btn-primary:hover{background:var(--gold-light);}
+.btn-ghost{background:transparent;color:var(--parchment);border-color:var(--line-dark);}
+.btn-ghost:hover{border-color:var(--gold-light);color:var(--gold-light);}
+.btn-outline{background:transparent;color:var(--ink);border-color:var(--ink);}
+.btn-outline:hover{background:var(--ink);color:var(--parchment);}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.reveal.is-visible{opacity:1;transform:none;}
+
+/* ============================================================
+   HEADER (shared across every page)
+============================================================ */
+#header{position:sticky;top:0;z-index:500;background:rgba(27,23,18,0.92);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1px solid transparent;transition:border-color .2s var(--ease),box-shadow .2s var(--ease);}
+#header.is-scrolled{border-color:var(--line-dark);box-shadow:0 6px 20px rgba(0,0,0,0.25);}
+#header .bar{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding-top:.9rem;padding-bottom:.9rem;}
+/* Note: only top/bottom padding is set above (not the shorthand "padding")
+   so the left/right padding from .wrap (1.5rem) still comes through — a
+   plain "padding: .9rem 0" here would silently zero out that side spacing,
+   since #header .bar is more specific than .wrap. */
+#header h1{margin:0;font-size:1.15rem;color:var(--parchment);font-family:var(--font-brand);font-weight:600;}
+#header h1 a{text-decoration:none;color:inherit;}
+.headerTM,.trademark{font-size:.55em;vertical-align:super;}
+/* line-height set here (not left at body's inherited 1.65) because between
+   roughly 860-1065px the nav is squeezed narrow enough that two-word labels
+   ("Hidden Details", "The Book", "Art Review & Pricing") wrap onto a second
+   line; at 1.65 those wrapped lines sat too far apart and looked broken.
+   It has to be set on the <ul> (not just the <a> below) because the vertical
+   gap between wrapped lines is governed by the line box "strut" of the
+   nearest block-level ancestor, which the <li> inherits from here — setting
+   line-height only on the inline <a> does not affect that spacing. */
+.site-nav ul{display:flex;list-style:none;gap:1.7rem;align-items:center;line-height:0.9;}
+.site-nav a{text-decoration:none;font-family:var(--font-mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:rgba(239,230,211,0.78);transition:color .15s var(--ease);}
+.site-nav a:hover{color:var(--gold-light);}
+.header-actions{display:flex;align-items:center;gap:1rem;}
+.nav-toggle{display:none;background:none;border:1px solid var(--line-dark);color:var(--parchment);width:2.6rem;height:2.6rem;border-radius:var(--radius);align-items:center;justify-content:center;cursor:pointer;}
+.nav-toggle span,.nav-toggle span::before,.nav-toggle span::after{content:"";display:block;width:16px;height:2px;background:currentColor;position:relative;transition:transform .2s;}
+.nav-toggle span::before{position:absolute;top:-5px;}
+.nav-toggle span::after{position:absolute;top:5px;}
+
+@media (max-width:860px){
+	.site-nav{position:fixed;inset:var(--header-h) 0 auto 0;background:var(--ink);border-bottom:1px solid var(--line-dark);padding:1rem 1.5rem 1.5rem;transform:translateY(-8px);opacity:0;pointer-events:none;transition:opacity .2s var(--ease),transform .2s var(--ease);max-height:calc(100vh - var(--header-h));overflow-y:auto;}
+	.site-nav.is-open{opacity:1;transform:none;pointer-events:auto;}
+	.site-nav ul{flex-direction:column;align-items:flex-start;gap:1rem;}
+	.nav-toggle{display:flex;}
+	.header-actions .btn-primary{display:none;}
+
+	/* Item 1: on small touchscreen layouts, give the logo (h1, left edge)
+	   and the nav-toggle handle (right edge) extra breathing room, equally
+	   on both sides, instead of sitting right at the screen edge. */
+	#header .bar{padding-left:2.25rem;padding-right:2.25rem;}
+
+	/* Item 2: center all footer content on small touchscreen layouts. */
+	#footer .wrap{flex-direction:column;align-items:center;text-align:center;}
+}
+
+/* ============================================================
+   PAGE BANNER — compact interior-page header (terms, privacy,
+   bookshop links, form-received). Not used on the homepage,
+   which has its own full hero.
+============================================================ */
+.page-banner{background:var(--ink);color:var(--parchment);padding:clamp(3rem,7vw,4.5rem) 0 clamp(2.2rem,5vw,3rem);}
+.page-banner h1{color:var(--parchment);font-size:clamp(1.9rem,4vw,2.9rem);max-width:20ch;}
+.page-banner .lede{color:rgba(239,230,211,0.78);}
+.page-banner .eyebrow{color:var(--gold-light);}
+
+/* ============================================================
+   PROSE — legal / long-form document typography
+============================================================ */
+.prose{max-width:74ch;}
+.prose h3{font-size:1.2rem;margin-top:2.1rem;padding-top:1.6rem;border-top:1px solid var(--line);color:var(--ink);}
+.prose h3:first-child{margin-top:0;padding-top:0;border-top:none;}
+.prose h4{font-family:var(--font-mono);text-transform:uppercase;font-size:.8rem;letter-spacing:.05em;color:var(--oxblood);margin-top:1.4rem;}
+.prose p{font-size:1rem;color:var(--ink-soft);}
+.prose ul{list-style:none;padding:0;margin:0 0 1.15em;}
+.prose ul li{padding-left:1.3em;position:relative;margin-bottom:.5em;}
+.prose ul li::before{content:"—";position:absolute;left:0;color:var(--gold);}
+.prose a{color:var(--oxblood);text-decoration:underline;text-underline-offset:2px;}
+.prose b{color:var(--ink);}
+.meta-line{font-family:var(--font-mono);font-size:.82rem;color:var(--ink-soft);background:var(--parchment-deep);border:1px solid var(--line);border-radius:var(--radius);padding:.9rem 1.2rem;display:inline-block;margin-bottom:2rem;}
+.provider-line{font-size:.85rem;color:var(--ink-soft);opacity:.8;margin-top:2.5rem;}
+
+/* Pill nav (used for jump-links, e.g. bookshop countries) */
+.pill-nav{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.6rem 0 2.2rem;}
+.pill-nav a{font-family:var(--font-mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;text-decoration:none;background:var(--white);border:1px solid var(--line);border-radius:100px;padding:.5em 1.1em;color:var(--ink-soft);transition:all .15s var(--ease);}
+.pill-nav a:hover{border-color:var(--gold);color:var(--ink);background:var(--parchment-deep);}
+
+/* ============================================================
+   FOOTER (shared)
+============================================================ */
+#footer{background:var(--ink);color:rgba(239,230,211,0.65);padding:3rem 0 2.2rem;font-size:.88rem;}
+#footer .wrap{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;}
+#footer a{color:rgba(239,230,211,0.82);text-decoration:underline;text-underline-offset:2px;}
+#footer .legal-lines{line-height:1.7;}
+
+/* ============================================================
+   LIGHTBOX (shared structure; only wired up where used)
+============================================================ */
+.lightbox{position:fixed;inset:0;background:rgba(10,8,6,0.92);display:none;align-items:center;justify-content:center;z-index:1000;padding:2rem;}
+.lightbox.is-open{display:flex;}
+.lightbox img{max-width:100%;max-height:88vh;box-shadow:0 20px 60px rgba(0,0,0,.6);}
+.lightbox-close{position:absolute;top:1.4rem;right:1.6rem;background:none;border:1px solid rgba(239,230,211,.4);color:var(--parchment);width:2.6rem;height:2.6rem;border-radius:50%;font-size:1.4rem;line-height:1;cursor:pointer;}
+.lightbox-close:hover{background:var(--gold);border-color:var(--gold);color:var(--ink);}

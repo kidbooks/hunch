@@ -1,0 +1,36 @@
+<!--
+	SHARED HEADER + NAVIGATION
+	==========================
+	Used by every page in the site. Edit THIS file to change the
+	logo, nav links, or header CTA button everywhere at once — then
+	run `python build.py` from the project root to regenerate all
+	the root-level .html pages.
+
+	The {{NAV_BASE}} token below gets replaced by build.py:
+	  - on index.html, it becomes "" (empty), so links like
+	    "{{NAV_BASE}}#work" become plain same-page anchors "#work".
+	  - on every other page, it becomes "https://hunchtrail.com/",
+	    so the same link becomes "https://hunchtrail.com/#work" —
+	    a full link back to that section of the homepage.
+	This is the ONLY thing that differs between pages, so it's the
+	only part build.py needs to fill in per page.
+-->
+<header id="header">
+	<div class="wrap bar">
+		<h1><a href="https://hunchtrail.com">The Hunch Trail<sup class="headerTM">TM</sup></a></h1>
+		<nav class="site-nav" id="siteNav">
+			<ul>
+				<li><a href="{{NAV_BASE}}#pareidolia">Hidden Details</a></li>
+				<li><a href="{{NAV_BASE}}#one">About</a></li>
+				<li><a href="{{NAV_BASE}}#two">The Book</a></li>
+				<li><a href="{{NAV_BASE}}#work">Art Review &amp; Pricing</a></li>
+				<li><a href="{{NAV_BASE}}#contact">Contact</a></li>
+				<li><a href="{{NAV_BASE}}#faq">FAQ</a></li>
+			</ul>
+		</nav>
+		<div class="header-actions">
+			<a href="{{NAV_BASE}}#work" class="btn btn-primary">Start an Art Review</a>
+			<button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu"><span></span></button>
+		</div>
+	</div>
+</header>
