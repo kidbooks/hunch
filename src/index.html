@@ -81,6 +81,19 @@
 	   same way) makes the caption's left/right edges align with the
 	   image's edges. */
 	.exhibit-two-caption{max-width:70%;margin:0 auto;}
+	/* Item 2 (round 3): the "Exhibit Two" tag sits above the narrowed,
+	   centred image, but the tag itself was never narrowed or centred,
+	   so it stayed flush with the grid column's left edge while the
+	   image sat 15% of the column's width to the right of it (half of
+	   the 30% removed above). Applying the exact same max-width/margin
+	   pair used for the image and caption makes the tag's own box match
+	   their box, which puts its left-aligned text flush with the
+	   image's left edge instead. Deliberately the same 644px breakpoint
+	   as the rules above (not a separately-measured value) — the
+	   misalignment only exists because those rules narrow the image at
+	   this breakpoint, so the fix has to switch on at exactly the same
+	   point or a gap opens up between them again. */
+	.exhibit-two-tag{max-width:70%;margin:0 auto;}
 }
 .proof-item figcaption{margin-top:.9rem;font-size:.92rem;color:var(--ink-soft);}
 .proof-item .exhibit-tag{display:block;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--oxblood);margin-bottom:.35em;}
@@ -92,19 +105,10 @@
 @media (max-width:600px){ .loupe-lens{width:130px;height:130px;} }
 .loupe-hint{position:absolute;bottom:.7rem;left:.7rem;background:rgba(27,23,18,.72);color:var(--parchment);font-family:var(--font-mono);font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;padding:.4em .7em;border-radius:2px;pointer-events:none;transition:opacity .3s;}
 .loupe-frame.is-active .loupe-hint{opacity:0;}
-/* Item 4: line-height:1 is the key fix here. The button is flex-centred
-   already, but with no line-height set it inherited body's 1.65 — the
-   glyph's line box was 65% taller than the glyph itself, and flex
-   centers that whole (oversized) line box, not the glyph's own visual
-   bounds. That vertical slop was barely noticeable at the small desktop
-   font-size but became an obvious off-centre glyph at the larger
-   1.55rem touch font-size below. */
-.expand-btn{position:absolute;top:.6rem;right:.6rem;width:2.1rem;height:2.1rem;border-radius:50%;background:rgba(27,23,18,.72);border:1px solid rgba(239,230,211,.4);color:var(--parchment);display:flex;align-items:center;justify-content:center;line-height:1;cursor:pointer;z-index:3;}
-.expand-btn:hover{background:var(--gold);color:var(--ink);border-color:var(--gold);}
-/* Item 3: on touchscreens, the expand icon's glyph is enlarged to almost
-   fill its circle, since finger taps are less precise than a mouse hover
-   and the icon needs to read clearly at a glance. */
-@media (hover:none){ .expand-btn{font-size:1.55rem;} }
+/* Item 4 (round 3): the .expand-btn fullscreen-icon button (formerly
+   present on both Exhibit One and Exhibit Two) has been removed from
+   the markup below at the user's request, so its CSS is removed here
+   too rather than left as dead weight nothing on the page uses. */
 
 /* Item 4: two copies of each instruction are in the markup — one written
    for a mouse ("cursor" / "drag to zoom"), one for touch ("finger" /
@@ -274,7 +278,7 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 		<div class="wrap">
 			<p class="eyebrow">Art Research · Education · Entertainment</p>
 			<h1>Uncovering Secrets in Famous Artworks</h1>
-			<p class="lede">For years I've catalogued details that master painters and sculptors had hidden in plain sight — the kind most scholars assume to be mere artifacts of the viewer's imagination. If you own or are thinking about buying a piece of fine art, an Art Review uncovers what might be hidden in yours, which could affect its value or authenticity.</p>
+			<p class="lede">For the past few years, I've privately catalogued details that master painters and sculptors have hidden in plain sight — the kind most art scholars assume to be mere artifacts of the viewer's imagination. If you own or are thinking about buying a piece of fine art, an Art Review uncovers what might be hidden in yours, which could affect its perceived value, attribution or authenticity.</p>
 			<div class="hero-ctas">
 				<a href="#work" class="btn btn-primary">Start with the Quotation Fee — US$99</a>
 				<a href="#pareidolia" class="btn btn-ghost">See a hidden detail first ↓</a>
@@ -291,9 +295,9 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 			<p class="eyebrow reveal">The Phenomenon</p>
 			<h2 class="reveal">Artists Hide Things In Plain Sight</h2>
 
-			<p class="text-columns reveal">Pareidolia is the tendency of our minds to see faces and familiar forms in random visual noise — clouds, wood grain, a slice of toast. Mainstream scholarship tends to treat it as exactly that: noise, not intent. My research points to a different conclusion. <span class="mark">Many of history's greatest artists were fluent in the language of pareidolia, and used it intentionally</span> — hiding symbolic details in plain sight, for viewers willing to look closely enough to find them.</p>
+			<p class="text-columns reveal">Pareidolia is the tendency of our minds to see faces and familiar forms in random visual noise — clouds, wood grain, a slice of toast. Mainstream scholarship tends to treat it as exactly that: noise, not intent. My research points to a different conclusion: that <span class="mark">many of history's greatest artists were fluent in the language of pareidolia, and used it intentionally</span> — hiding symbolic details in plain sight, for viewers willing to look closely enough to find them.</p>
 
-			<p class="text-columns reveal">Below are two examples. One is fairly well documented online; the other, to my knowledge, isn't described anywhere else — though Sidney Geist, author of <i>Interpreting Cézanne</i>, was clearly familiar with this kind of concealment himself, and may have already catalogued something similar among what he called "cryptomorphs." <span class="mark instruction-mouse">You can drag your cursor across the first image to see what's hiding.</span><span class="mark instruction-touch">You can drag your finger across the first image to see what's hiding, or simply click the top-right corner button to enlarge the image.</span></p>
+			<p class="text-columns reveal">Below are two examples. The first one is fairly well-documented online; the other, to my knowledge, isn't described anywhere else — though Sidney Geist, author of <i>Interpreting Cézanne</i>, was clearly familiar with this kind of concealment himself, and may have already catalogued something similar among what he called "cryptomorphs." <strong><span class="instruction-mouse">You can drag your cursor across the first image to see what's hiding.</span><span class="instruction-touch">You can drag your finger across the first image to see what's hiding.</span></strong></p>
 
 			<div class="proof-grid reveal">
 				<figure class="proof-item">
@@ -303,24 +307,22 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 						<div class="loupe-lens" aria-hidden="true"></div>
 						<span class="loupe-hint hint-mouse">Drag to zoom</span>
 						<span class="loupe-hint hint-touch">Touch to zoom</span>
-						<button type="button" class="expand-btn enlarge" data-full="images/hiding/fulls/01.jpg" data-alt="Saint Sebastian by Andrea Mantegna, full size" aria-label="View full size">⤢</button>
 					</div>
 					<figcaption>Saint Sebastian — Andrea Mantegna, c.1470. Kunsthistorisches Museum, Vienna. Look for the horse-rider in the clouds.</figcaption>
 				</figure>
 				<figure class="proof-item">
-					<span class="exhibit-tag">Exhibit Two</span>
+					<span class="exhibit-tag exhibit-two-tag">Exhibit Two</span>
 					<div class="loupe-frame exhibit-two-frame" data-zoom="2.6" style="aspect-ratio:685/1030;">
 						<img src="images/hiding/fulls/02.jpg" alt="Route de village, Auvers by Paul Cézanne, with a large hidden face" draggable="false">
 						<!-- <div class="loupe-lens" aria-hidden="true"></div> -->
 						<!-- <span class="loupe-hint hint-mouse">Drag to zoom</span>
 						<span class="loupe-hint hint-touch">Touch to zoom</span> -->
-						<button type="button" class="expand-btn enlarge" data-full="images/hiding/fulls/02.jpg" data-alt="Route de village, Auvers by Paul Cézanne, full size" aria-label="View full size">⤢</button>
 					</div>
 					<figcaption class="exhibit-two-caption">Route de village, Auvers — Paul Cézanne. See the large face?</figcaption>
 				</figure>
 			</div>
 
-			<p class="text-columns reveal">These aren't isolated cases. My research — which draws on art history, science, and religious symbolism — has catalogued many such details across famous paintings, often significant to the work's subject matter. <span class="mark">Details like these can meaningfully shift how a piece is valued</span>, and occasionally offer clues toward authorship or authentication.</p>
+			<p class="text-columns reveal">These aren't isolated cases. My independent research — which draws on art history, science, and religious symbolism — has catalogued many such details across famous paintings, often significant to the work's subject matter. <strong>Details like these have the potential to shift how a piece is valued</strong>, and could occasionally offer clues toward authorship or authentication.</p>
 
 			<p class="text-columns reveal">Take the horse-rider hidden in the clouds above: it appears in <i>The Martyrdom of Saint Sebastian</i>, painted by Andrea Mantegna around 1470 and now in Vienna's Kunsthistorisches Museum. Two other versions of the same subject are also attributed to Mantegna — one in the Louvre, one in Venice's Ca' d'Oro.</p>
 
@@ -331,9 +333,9 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 				<figcaption>Three extant versions of Andrea Mantegna's <i>Martyrdom of Saint Sebastian</i>. Credit: en.wikipedia.org/wiki/Saint_Sebastian_(Mantegna)</figcaption>
 			</figure>
 
-			<p class="text-columns reveal">I can't speak to the authorship of those other two versions, but I'm reasonably confident the Vienna painting is an original, not a copy. The hidden horse-rider is clear evidence of real artistic invention, not mere copying.</p>
+			<p class="text-columns reveal">I can't speak to the authorship of those other two versions, but my personal opinion is that the Vienna painting is an original, not a copy. The hidden horse-rider is clear evidence of real artistic invention, not mere copying. But I am not a licensed, accredited, or certified art valuer, appraiser, or authenticator, and I hold no formal qualification in art history, connoisseurship, forensic art analysis, or valuation. So this is just my two cents.</p>
 
-			<p class="text-columns reveal">If you'd like this kind of analysis applied to a specific piece — one you own, or are thinking about buying — that's exactly what the <a href="#work">Art Review service</a> further down this page is for. It's available to clients in most countries, including the <span class="mark">USA, EU, UK, Canada, Australia, and New Zealand</span>.</p>
+			<p class="text-columns reveal">If you'd like this kind of analysis applied to a specific piece — one you own, or are thinking about buying — that's exactly what the <a href="#work">Art Review service</a> further down this page is for. It's available to clients in most countries, including the <strong>USA, EU, UK, Canada, Australia, and New Zealand</strong>.</p>
 		</div>
 	</section>
 
@@ -383,23 +385,16 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 	<section id="work" class="section-alt">
 		<div class="wrap">
 			<p class="eyebrow reveal">The Art Review</p>
-			<h2 class="reveal">What It Is, How It Works, What It Costs</h2>
+			<h2 class="reveal">The Art Review: How It Works, What It Costs</h2>
 			<p class="question-line reveal">What is hiding in that artwork you own or plan to buy?</p>
-			<p class="text-columns reveal">Hidden details can have a material effect on how a piece of art is valued. In some cases they even provide evidence toward a work's authenticity or its attribution to a specific artist — evidence that can occasionally be decisive. <span class="mark">Knowing about something in a piece that other people don't gives you an edge</span>: in negotiating a price, in deciding whether to buy at all, or in making the case for a higher valuation down the line.</p>
+			<p class="text-columns reveal">Hidden details can have a material effect on how a piece of art is valued. In some cases they even provide evidence toward a work's authenticity or its attribution to a specific artist — evidence that can occasionally be decisive. <span class="mark">Having exclusive knowledge about an artwork gives you an advantage</span>: in negotiating a price, in deciding whether to buy at all, or in making the case for a higher valuation down the line.</p>
 
-			<div class="funnel reveal">
-				<div class="funnel-step"><span class="funnel-step-num">1</span><span class="funnel-step-label">Pay $99</span></div>
-				<span class="funnel-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
-				<div class="funnel-step"><span class="funnel-step-num">2</span><span class="funnel-step-label">Get a scoped quote</span></div>
-				<span class="funnel-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
-				<div class="funnel-step"><span class="funnel-step-num">3</span><span class="funnel-step-label">Approve & pay or walk away</span></div>
-			</div>
+			<h3 class="reveal">How It Works</h3>
 
 			<div class="price-note reveal">
 				<b>Two separate payments, two separate steps.</b> The <strong>Quotation Fee</strong> (US$99) is what gets the process started and buys you a custom quote. The <strong>Art Review</strong> itself is quoted individually for your piece and typically costs upwards of US$10,000 — see <a href="#fee_estimate">example fees below</a>.
 			</div>
 
-			<h3 class="reveal">How It Works</h3>
 			<div class="steps reveal">
 				<div class="step">
 					<div class="step-num">01</div>
@@ -444,7 +439,7 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 			</div>
 
 			<h3 id="fee_estimate" class="reveal">Fee Estimate</h3>
-			<p class="text-columns reveal">While every quote is custom, the examples below should help you estimate your likely fees and turnaround time. <span class="mark">Each estimate below includes five (5) review passes</span>. A review pass is a full manual scan of the artwork for hidden details, usually lasting several hours to several days. Preparation time is required before each session — not unlike letting your eyes adjust before stargazing — with several days between passes producing the best results. Fees increase with the number of passes, the size of the piece, and the level of detail. The more valuable or important the purchase, the more passes it is worth having.</p>
+			<p class="text-columns reveal">While every quote is custom, the examples below should help you estimate your likely fees and turnaround time. <span class="mark">Each estimate below includes five (5) review passes</span>. A review pass is a full manual scan of the artwork for hidden details, usually lasting several hours to several days. Preparation time is required before each session — not unlike letting your eyes adjust before stargazing — with several days between passes producing the best results. Fees increase with the number of passes, the size of the piece, and the level of detail. The more valuable or important the purchase, the more passes it is worth having. <strong>Tap any image below to view it in full screen mode</strong>.</p>
 
 			<div class="exhibit-grid reveal">
 				<div class="exhibit-card">
@@ -492,7 +487,9 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 			<div class="legal-block reveal">
 				<h3>Limitations on Assurances</h3>
 				<div class="note-callout">
-					<p>An Art Review can't guarantee that an artist intentionally hid any detail I find because nobody can be certain of an artist's true intent, and interesting forms can appear by pure chance. I can't guarantee any effect, positive or negative, on your artwork's valuation, authenticity, or attribution, and I can't guarantee that every hidden detail the artist has included — or any detail at all — will be found. What you're paying for is a sincere, disciplined attempt to find what might be hidden in plain sight, applying pareidolia carefully and without slipping into delusion.</p>
+					<p>An Art Review can't guarantee that an artist intentionally hid any detail I find because nobody can be certain of an artist's true intent, and interesting forms can appear by pure chance. I can't guarantee any effect, positive or negative, on your artwork's valuation, authenticity, or attribution, and I can't guarantee that every hidden detail the artist has included — or any detail at all — will be found. What you're paying for is a sincere, disciplined attempt to find what might be hidden in plain sight, applying pareidolia carefully and without slipping into delusion. These findings can then be taken to professional, accredited, or certified art professionals for a formal opinion on possible implications for valuation, authentication, and attribution of the artwork.</p>
+					<p>I am not a licensed, accredited, or certified art valuer, appraiser, or authenticator, and I hold no formal qualification in art history, connoisseurship, forensic art analysis, or valuation. My opinions are based on visual comparison and independent research and should not be relied upon as a substitute for formal authentication (e.g. by a recognised catalogue raisonné committee, forensic conservator, or accredited valuer) or a certified valuation (e.g. by a valuer accredited under the relevant professional body in your jurisdiction).</p>
+					<p>The opinions provided in an Art Review therefore reflect my personal research and visual analysis and do not constitute a formal appraisal, authentication, or valuation. Any decision to buy, sell, insure, restore, or otherwise act upon an artwork discussed on this site or in any consultation should be made only after obtaining independent advice from a suitably qualified and, where relevant, licensed professional. I accept no liability for any loss or damage arising from reliance on the opinions expressed therein.</p>
 				</div>
 			</div>
 
@@ -568,7 +565,7 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 				<details class="faq-item">
 					<summary>Do you specialise in a particular genre?</summary>
 					<div class="faq-body">
-						<p>Religious art is my preferred genre, and where I do my best work — it's the subject matter I find most engaging, and where I'm most likely to correctly identify intentional concealment by the artist.</p>
+						<p>Religious art is my preferred genre, and where I do my best work. It's the subject matter I find most engaging, and where I'm most likely to correctly identify intentional concealment by the artist.</p>
 					</div>
 				</details>
 				<details class="faq-item" id="eligibility">
@@ -586,7 +583,16 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 				<details class="faq-item">
 					<summary>How do I send you the artwork for analysis?</summary>
 					<div class="faq-body">
-						<p>When you pay the Quotation Fee, you'll provide your email address and phone number. Bany or a team member will then contact you to arrange the details — you'll send digital photos of the piece (several angles for sculpture) and some background, so we can prepare an accurate quote.</p>
+						<p>When you pay the Quotation Fee, you'll provide your email address and phone number. Bany or a team member will then contact you to arrange the details. You'll send digital photos of the piece (several angles for sculpture) and some background, so we can prepare an accurate quote.</p>
+					</div>
+				</details>
+				<details class="faq-item">
+					<summary>Do you have qualifications that authorise you to analyse, value, attribute, and authenticate art?</summary>
+					<div class="faq-body">
+						<p>No.</p>
+						<p>The observations, opinions, and analysis presented on this website and as part of my Art Reviews regarding the attribution, authenticity, or value of any artwork are provided for informational and educational purposes only. They reflect my personal, independent research and visual analysis and do not constitute a formal appraisal, authentication, or valuation. The findings of an Art Review should be considered clues and pointers that you can present to licensed, accredited, or certified art professionals to obtain a formal opinion on possible implications for valuation, authentication, and attribution of the artwork.</p>
+						<p>I am not a licensed, accredited, or certified art valuer, appraiser, or authenticator, and I hold no formal qualification in art history, connoisseurship, forensic art analysis, or valuation. My opinions are based on visual comparison and independent research and should not be relied upon as a substitute for formal authentication (e.g. by a recognised catalogue raisonné committee, forensic conservator, or accredited valuer) or a certified valuation (e.g. by a valuer accredited under the relevant professional body in your jurisdiction).</p>
+						<p>Any decision to buy, sell, insure, restore, or otherwise act upon an artwork discussed on this site or in any consultation should be made only after obtaining independent advice from a suitably qualified and, where relevant, licensed professional. I accept no liability for any loss or damage arising from reliance on the opinions expressed in this website or in any reports that are provided as part of an Art Review.</p>
 					</div>
 				</details>
 				<details class="faq-item">
@@ -622,6 +628,76 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 <script>
 (function(){
 	"use strict";
+
+	/* Item 1 (round 3): client-side honeypot check for the contact
+	   form. The hidden "botcheck" checkbox below is already checked
+	   server-side by Web3Forms (the form's submission endpoint) — a
+	   submission is silently rejected there if it comes back checked,
+	   which is what actually stops spam, since a bot that skips the
+	   honeypot to dodge this JS would just as easily skip the same
+	   check if it lived only in the browser. What this adds is a
+	   second, client-side check: it stops a filled-in submission from
+	   ever leaving the browser at all, sparing a pointless round trip
+	   to Web3Forms for the small share of bots that do execute page
+	   JavaScript. Note for later: Web3Forms' own docs now call this
+	   honeypot approach "not recommended" and suggest pairing it with
+	   (or replacing it with) their hCaptcha/reCAPTCHA integration —
+	   worth considering if spam through this form becomes a problem,
+	   since honeypots alone are increasingly easy for modern bots to
+	   detect and ignore. Source: docs.web3forms.com, "Honeypot" page. */
+	var contactForm = document.querySelector('#contact form');
+	if (contactForm) {
+		contactForm.addEventListener('submit', function(e){
+			var botField = contactForm.querySelector('input[name="botcheck"]');
+			if (botField && botField.checked) {
+				e.preventDefault();
+				/* Deliberately no message and no console log here — a
+				   bot filled in a field meant to be invisible to real
+				   visitors, so there's no one to usefully inform. */
+			}
+		});
+	}
+
+	/* Item 3 (round 3): on wide-enough screens the two hero buttons
+	   sit on one row, and the .hero-note paragraph below them should
+	   wrap at the same right edge as that row instead of its own
+	   fixed 46ch cap (which the CSS still uses as the default — see
+	   #hero .hero-note above — for narrow screens where the buttons
+	   stack onto separate rows). Matching that edge exactly isn't
+	   something CSS alone can do here: the row's rendered width
+	   depends on the CTA copy, the web font that's loaded, and the
+	   viewport, so this measures the row directly rather than
+	   guessing a fixed breakpoint or pixel width that could drift out
+	   of sync with any of those. Whether the buttons are still on one
+	   row is likewise detected directly (by comparing their vertical
+	   position) rather than assumed from a screen-width breakpoint,
+	   so this keeps working correctly regardless of viewport size,
+	   font metrics, or future copy changes. */
+	var heroCtas = document.querySelector('.hero-ctas');
+	var heroNote = document.querySelector('.hero-note');
+	if (heroCtas && heroNote) {
+		var syncHeroNoteWidth = function(){
+			var ctaButtons = heroCtas.querySelectorAll('.btn');
+			var singleRow = ctaButtons.length < 2 ||
+				ctaButtons[0].offsetTop === ctaButtons[ctaButtons.length - 1].offsetTop;
+			if (singleRow) {
+				heroNote.style.maxWidth = heroCtas.getBoundingClientRect().width + 'px';
+			} else {
+				/* Buttons have wrapped onto separate rows (narrow
+				   screen) — clear the inline override and fall back
+				   to the CSS default. */
+				heroNote.style.maxWidth = '';
+			}
+		};
+		syncHeroNoteWidth();
+		window.addEventListener('resize', syncHeroNoteWidth, {passive:true});
+		/* Google Fonts loads with font-display:swap, so the CTA
+		   buttons can resize slightly once the real webfont replaces
+		   the fallback font — re-measure once that settles. */
+		if (document.fonts && document.fonts.ready) {
+			document.fonts.ready.then(syncHeroNoteWidth);
+		}
+	}
 
 	/* Item 5: FAQ "view all" toggle. Clicking expands every FAQ item at
 	   once (or collapses them if already all open); the button's label
