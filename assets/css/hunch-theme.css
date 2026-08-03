@@ -16,6 +16,30 @@
 	--gold:#B98A32;
 	--gold-light:#D1A550;
 	--oxblood:#7A2E27;
+	/* "BUY THE BOOK" CTA colour.
+	   Round 5, item 4: changed from the previous burnt-orange (#9C4A1D)
+	   to the requested #7A2E27 — which is exactly the existing --oxblood
+	   token, so this aliases that token rather than repeating the hex, per
+	   DRY. Change --oxblood and both stay in step automatically.
+	   --accent-cta-light is only the hover state: the same hue lifted
+	   slightly so the button still visibly responds to a pointer. */
+	--accent-cta:var(--oxblood);
+	--accent-cta-light:#9A3A2D;
+	/* Item 4 (round 4): brightened red for the "Want to buy it?" mark,
+	   used ONLY where a .mark sits on the dark .case-card background
+	   (see .mark-on-dark below) — not a global change to .mark, since
+	   every other .mark on the page sits on the light parchment
+	   background where the plain --oxblood already reads fine. */
+	--oxblood-bright:#DD7E62;
+	/* Round 6: border colour for the site's marketing CTA buttons
+	   (.btn-primary / .btn-accent / .btn-ghost — see that rule below).
+	   A warm saddle-brown chosen to sit between the existing --gold
+	   (#B98A32) and --oxblood (#7A2E27) tokens in hue, so it reads as
+	   part of the same warm palette rather than an unrelated colour.
+	   Kept light enough (vs. near-black --ink and dark --oxblood) that
+	   a 3px border in it stays visible as an outline on every CTA fill
+	   colour it needs to sit on: gold, oxblood and transparent-on-dark. */
+	--cta-border:#7C5430;
 	--verdigris:#5C6B58;
 	--white:#FFFFFF;
 	--line:rgba(27,23,18,0.16);
@@ -59,6 +83,13 @@ button{font-family:inherit;}
 .section-dark .eyebrow{color:var(--gold-light);}
 .mark{color:var(--oxblood);font-weight:600;}
 .section-dark .mark{color:var(--gold-light);}
+/* Item 4 (round 4): opt-in modifier for a .mark that sits on the
+   .case-card's dark translucent background (as opposed to .section-dark,
+   which is a different, solid-dark background already handled above).
+   Applied directly on the one span that needs it, rather than scoping by
+   ancestor, so it can't accidentally pick up unrelated .mark spans later
+   added inside a .case-card. */
+.mark-on-dark{color:var(--oxblood-bright);}
 .lede{font-size:1.2rem;color:var(--ink-soft);max-width:62ch;}
 /* Item 1: text-columns previously capped these paragraphs at 70ch,
    which left them visibly narrower than the other full-width elements
@@ -84,6 +115,31 @@ section{padding:clamp(3.5rem,7vw,6.5rem) 0;}
 .btn-ghost:hover{border-color:var(--gold-light);color:var(--gold-light);}
 .btn-outline{background:transparent;color:var(--ink);border-color:var(--ink);}
 .btn-outline:hover{background:var(--ink);color:var(--parchment);}
+/* "BUY THE BOOK" CTA — same .btn base as .btn-primary (size, shape and
+   hover-lift all inherited), just its own colour so it reads as a
+   distinct, secondary call to action next to the gold .btn-primary.
+   The shadow tint is the button's own RGB so it reads as that colour's
+   shadow rather than a leftover from the previous accent colour. */
+.btn-accent{background:var(--accent-cta);color:var(--parchment);box-shadow:0 10px 22px rgba(122,46,39,0.35);}
+.btn-accent:hover{background:var(--accent-cta-light);}
+/* Round 6: thick brown border + slightly rounder corners, on the site's
+   actual marketing CTAs only — .btn-primary, .btn-accent and .btn-ghost.
+   That's the 5 CTA buttons on index.html (2x primary, 2x accent, 1x
+   ghost) plus, for free, the 2 header nav CTAs, which are already
+   built from .btn-primary/.btn-accent + a shared .header-cta sizing
+   class (see partials/header.html) — no separate header rule needed,
+   per DRY. Deliberately does NOT touch .btn-outline, which on this
+   site is only ever the contact-form Submit button and the FAQ
+   "View all" toggle — utility controls, not marketing CTAs.
+   Specificity here matches .btn/.btn-ghost above (single class each),
+   so this rule relies on appearing later in the file to win the
+   cascade — same pattern the existing .btn-ghost border-color rule
+   already relies on.
+   3px is "thick" against the 1px border every .btn carries by default.
+   6px is double the site's --radius (3px) — noticeably softer without
+   going pill-shaped, so these buttons still read as part of the same
+   fairly square, plaque-like button language as the untouched ones. */
+.btn-primary,.btn-accent,.btn-ghost{border-width:3px;border-color:var(--cta-border);border-radius:6px;}
 
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
 .reveal.is-visible{opacity:1;transform:none;}
@@ -98,21 +154,72 @@ section{padding:clamp(3.5rem,7vw,6.5rem) 0;}
    so the left/right padding from .wrap (1.5rem) still comes through — a
    plain "padding: .9rem 0" here would silently zero out that side spacing,
    since #header .bar is more specific than .wrap. */
-#header h1{margin:0;font-size:1.15rem;color:var(--parchment);font-family:var(--font-brand);font-weight:600;}
+/* nowrap keeps the wordmark on one line; it is a flex item, so without this
+   it can break in two when the bar gets tight and throw the row off balance. */
+#header h1{margin:0;font-size:1.15rem;color:var(--parchment);font-family:var(--font-brand);font-weight:600;white-space:nowrap;}
 #header h1 a{text-decoration:none;color:inherit;}
 .headerTM,.trademark{font-size:.55em;vertical-align:super;}
-/* line-height set here (not left at body's inherited 1.65) because between
-   roughly 860-1065px the nav is squeezed narrow enough that two-word labels
-   ("Hidden Details", "The Book", "Art Review & Pricing") wrap onto a second
-   line; at 1.65 those wrapped lines sat too far apart and looked broken.
-   It has to be set on the <ul> (not just the <a> below) because the vertical
-   gap between wrapped lines is governed by the line box "strut" of the
-   nearest block-level ancestor, which the <li> inherits from here — setting
-   line-height only on the inline <a> does not affect that spacing. */
-.site-nav ul{display:flex;list-style:none;gap:1.7rem;align-items:center;line-height:0.9;}
-.site-nav a{text-decoration:none;font-family:var(--font-mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:rgba(239,230,211,0.78);transition:color .15s var(--ease);}
+/* ---------- Desktop nav spacing (round 6) ----------
+   The gap between nav items is set ONCE, here, and never changed by a
+   media query. That is the whole point: a single font-size plus a single
+   gap means every pair of labels is separated by the same distance at
+   every viewport width the horizontal nav appears at, and that distance
+   does not shift as the window is resized.
+
+   Why .72rem / 1.1rem and not the previous .78rem / 1.7rem: the six
+   labels total 48 characters, and IBM Plex Mono advances 0.6em per
+   character (0.66em once the .06em letter-spacing is counted). At
+   .78rem with a 1.7rem gap the row measures ~531px, which stops fitting
+   beside the logo and the two CTA buttons at about 1069px and made the
+   labels break onto two lines below that. At .72rem / 1.1rem it measures
+   ~453px and fits comfortably from 1024px (landscape iPad) upward.
+
+   line-height is deliberately below 1 to keep the line box tight around
+   the single row of uppercase text; these labels have no descenders, so
+   nothing is clipped. It must be set on the <ul>, not the <a>, because
+   the <li> line box inherits its "strut" from the nearest block ancestor. */
+.site-nav ul{display:flex;list-style:none;gap:1.1rem;align-items:center;line-height:0.9;}
+/* white-space:nowrap is what actually guarantees even spacing. Without it a
+   flex item may shrink to its min-content width and break "Hidden Details"
+   over two lines, which gives items different heights and ragged edges —
+   the effect that reads as uneven spacing. With it, a label is either on
+   one line or the whole row moves to its own line (see the media query
+   below); it can never half-break. */
+.site-nav a{text-decoration:none;font-family:var(--font-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:rgba(239,230,211,0.78);white-space:nowrap;transition:color .15s var(--ease);}
 .site-nav a:hover{color:var(--gold-light);}
+
+/* ---------- The squeeze band: 861px to 1023px ----------
+   Fixed costs in the header bar are ~538px at any width: .wrap padding
+   (48px), the logo (~143px), the two CTA buttons (~299px) and two 24px
+   flex gaps. That leaves only ~323px for the nav at 861px, against the
+   ~453px it needs — so at these widths the nav genuinely cannot share a
+   row with everything else at a legible size.
+
+   Rather than shrink the text to ~9px or hide anything, the nav drops to
+   its own full-width row underneath, where it has ~813px to work with.
+   Still horizontal, still one line, still the same single gap value, so
+   the spacing rhythm is identical to the wide-screen layout.
+
+   order:3 sends it below the logo and buttons (both at the default
+   order:0) and flex-basis:100% forces it onto a row of its own.
+   --header-h is re-stated because the header is now ~96px tall instead
+   of 76px, and that token drives html{scroll-padding-top}, which is what
+   stops anchor jumps landing underneath the sticky header. */
+@media (min-width:861px) and (max-width:1023px){
+	:root{--header-h:96px;}
+	#header .bar{flex-wrap:wrap;row-gap:.9rem;}
+	.site-nav{order:3;flex-basis:100%;}
+	.site-nav ul{justify-content:center;}
+}
+
 .header-actions{display:flex;align-items:center;gap:1rem;}
+/* Round 5, item 2: shrink both header CTA buttons ~20%.
+   Only font-size is set. The shared .btn rule sizes its padding in `em`
+   (.95em 1.6em), so padding scales with the font automatically — one
+   declaration shrinks the buttons' width AND height together by the same
+   20%, with no second rule to keep in sync and no risk of the text and the
+   box scaling by different amounts. .85rem x 0.8 = .68rem. */
+.header-cta{font-size:.68rem;}
 .nav-toggle{display:none;background:none;border:1px solid var(--line-dark);color:var(--parchment);width:2.6rem;height:2.6rem;border-radius:var(--radius);align-items:center;justify-content:center;cursor:pointer;}
 .nav-toggle span,.nav-toggle span::before,.nav-toggle span::after{content:"";display:block;width:16px;height:2px;background:currentColor;position:relative;transition:transform .2s;}
 .nav-toggle span::before{position:absolute;top:-5px;}
@@ -123,7 +230,12 @@ section{padding:clamp(3.5rem,7vw,6.5rem) 0;}
 	.site-nav.is-open{opacity:1;transform:none;pointer-events:auto;}
 	.site-nav ul{flex-direction:column;align-items:flex-start;gap:1rem;}
 	.nav-toggle{display:flex;}
-	.header-actions .btn-primary{display:none;}
+	/* Item 2 (round 4): was ".header-actions .btn-primary" — narrowed
+	   to a shared ".header-cta" class (now on both header buttons, see
+	   partials/header.html) so any current or future header CTA button
+	   hides here on narrow screens without needing its own copy of this
+	   rule, per DRY. */
+	.header-actions .header-cta{display:none;}
 
 	/* Item 1: on small touchscreen layouts, give the logo (h1, left edge)
 	   and the nav-toggle handle (right edge) extra breathing room, equally

@@ -74,36 +74,33 @@
 /* Item: Exhibit Two's image is portrait (685:1030) where Exhibit One's is
    landscape (800:534). At equal grid-column widths that makes Exhibit Two
    roughly twice as tall, leaving a large blank gap below Exhibit One's
-   shorter card. Shrinking Exhibit Two ~30% narrower (its aspect-ratio keeps
-   the height proportional) closes most of that gap. 644px matches the exact
-   width where repeat(auto-fit, minmax(280px,1fr)) above switches the grid
-   from one stacked column to two side-by-side columns — below it, both
-   exhibits are full-width and this override should not apply. */
+   shorter card. 644px matches the exact width where
+   repeat(auto-fit, minmax(280px,1fr)) above switches the grid from one
+   stacked column to two side-by-side columns — below it, both exhibits
+   are full-width and this override should not apply. */
 @media (min-width:644px){
-	/* Item 1: centre the narrowed Exhibit Two image within its grid
-	   column (it was previously flush against the column's left edge,
-	   which now reads as off-balance against Exhibit One filling its
-	   own column edge-to-edge). */
-	.exhibit-two-frame{max-width:70%;margin:0 auto;}
-	/* Item 1: the caption previously spanned the full grid column,
-	   wider than the image above it, so its edges didn't line up with
-	   the image. Matching its width to the image (and centering it the
-	   same way) makes the caption's left/right edges align with the
-	   image's edges. */
-	.exhibit-two-caption{max-width:70%;margin:0 auto;}
-	/* Item 2 (round 3): the "Exhibit Two" tag sits above the narrowed,
-	   centred image, but the tag itself was never narrowed or centred,
-	   so it stayed flush with the grid column's left edge while the
-	   image sat 15% of the column's width to the right of it (half of
-	   the 30% removed above). Applying the exact same max-width/margin
-	   pair used for the image and caption makes the tag's own box match
-	   their box, which puts its left-aligned text flush with the
-	   image's left edge instead. Deliberately the same 644px breakpoint
-	   as the rules above (not a separately-measured value) — the
-	   misalignment only exists because those rules narrow the image at
-	   this breakpoint, so the fix has to switch on at exactly the same
-	   point or a gap opens up between them again. */
-	.exhibit-two-tag{max-width:70%;margin:0 auto;}
+	/* Item 5 (round 4): previously both grid columns were equal (1fr 1fr,
+	   from auto-fit above), with Exhibit Two's image separately capped to
+	   70% of its column and centred — leaving Exhibit One's column mostly
+	   empty below its shorter landscape image. Instead of shrinking
+	   Exhibit Two's image further, this gives Exhibit One's column a
+	   bigger share of the row (13fr vs 7fr) and shrinks Exhibit Two's
+	   COLUMN to exactly the width its image already rendered at
+	   (70% of the old equal column = 7/10 of a 1fr share = a 7fr column
+	   once Exhibit One's column grows to 13fr, since 13+7=20=2×10).
+	   Net effect: Exhibit One's image gets noticeably larger, Exhibit
+	   Two's image stays the exact same rendered size it was before (just
+	   with no leftover side-margin, since its column now fits it exactly)
+	   — so Exhibit Two is never made smaller, only Exhibit One grows.
+	   Some blank space below Exhibit One remains by design: closing it
+	   completely would require shrinking Exhibit Two, which this
+	   deliberately avoids. */
+	.proof-grid{grid-template-columns:13fr 7fr;}
+	/* Item 5 (round 4): Exhibit Two's image/caption/tag now fill their
+	   column at 100% width (the column itself is already sized to match
+	   the image), so the old 70%-and-centre overrides are removed —
+	   they'd otherwise shrink the image a second time, inside its
+	   already-correctly-sized column. */
 }
 .proof-item figcaption{margin-top:.9rem;font-size:.92rem;color:var(--ink-soft);}
 .proof-item .exhibit-tag{display:block;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--oxblood);margin-bottom:.35em;}
@@ -286,13 +283,21 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 				<li><a href="#pareidolia">Hidden Details</a></li>
 				<li><a href="#one">About</a></li>
 				<li><a href="#two">The Book</a></li>
-				<li><a href="#work">Art Review &amp; Pricing</a></li>
+				<li><a href="#work">Art Reviews</a></li>
 				<li><a href="#contact">Contact</a></li>
 				<li><a href="#faq">FAQ</a></li>
 			</ul>
 		</nav>
 		<div class="header-actions">
-			<a href="#work" class="btn btn-primary">Start an Art Review</a>
+			<a href="#work" class="btn btn-primary header-cta">Art Review Quote</a>
+			<!-- Item 2 (round 4): "BUY THE BOOK" CTA, adjacent to the Art Review
+			     Quote button above. Always a plain relative link to
+			     bookshop_links.html, with no NAV-BASE placeholder needed — unlike
+			     the button above, this isn't a same-page anchor into index.html,
+			     it's a real separate page that lives at the site root next to
+			     every other root-level page this header appears on, so a plain
+			     relative link resolves correctly everywhere already. -->
+			<a href="bookshop_links.html" class="btn btn-accent header-cta">BUY THE BOOK</a>
 			<button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu"><span></span></button>
 		</div>
 	</div>
@@ -307,10 +312,12 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 		<div class="wrap">
 			<p class="eyebrow">Art Research · Education · Entertainment</p>
 			<h1>Uncovering Secrets in Famous Artworks</h1>
-			<p class="lede">For the past few years, I've privately catalogued details that master painters and sculptors have hidden in plain sight — the kind most art scholars assume to be mere artifacts of the viewer's imagination. If you own or are thinking about buying a piece of fine art, an Art Review uncovers what might be hidden in yours, which could affect its perceived value, attribution or authenticity.</p>
+			<p class="lede">For the past few years, I've privately catalogued details that master painters and sculptors have hidden in plain sight — the kind most art scholars assume to be mere artifacts of the viewer's imagination. If you own or are thinking about buying a piece of fine art, an Art Review uncovers what might be hidden in yours, which could affect its perceived value, attribution or authenticity. I've even hidden clues to details I've discovered in famous works of Christian art in the illustrations of my debut children's picture book titled, <i>Nicky's Secret: A Christmas Story</i>.</p>
 			<div class="hero-ctas">
-				<a href="#work" class="btn btn-primary">Start with the Quotation Fee — US$99</a>
-				<a href="#pareidolia" class="btn btn-ghost">See a hidden detail first ↓</a>
+				<a href="#work" class="btn btn-primary">Get an Art Review quote</a>
+				<!-- Item 3 (round 4): same BUY THE BOOK CTA as the nav bar (item 2). -->
+				<a href="bookshop_links.html" class="btn btn-accent">BUY THE BOOK</a>
+				<a href="#pareidolia" class="btn btn-ghost">Sample hidden details ↓</a>
 			</div>
 			<p class="hero-note">The non-refundable US$99 Quotation Fee is how an Art Review begins. The review itself is quoted separately and custom to your piece, typically starting from around US$10,000 for the simplest pieces. Details further down this page.</p>
 		</div>
@@ -340,14 +347,14 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 					<figcaption>Saint Sebastian — Andrea Mantegna, c.1470. Kunsthistorisches Museum, Vienna. Look for the horse-rider in the clouds.</figcaption>
 				</figure>
 				<figure class="proof-item">
-					<span class="exhibit-tag exhibit-two-tag">Exhibit Two</span>
-					<div class="loupe-frame exhibit-two-frame" data-zoom="2.6" style="aspect-ratio:685/1030;">
+					<span class="exhibit-tag">Exhibit Two</span>
+					<div class="loupe-frame" data-zoom="2.6" style="aspect-ratio:685/1030;">
 						<img src="images/hiding/fulls/02.jpg" alt="Route de village, Auvers by Paul Cézanne, with a large hidden face" draggable="false">
 						<!-- <div class="loupe-lens" aria-hidden="true"></div> -->
 						<!-- <span class="loupe-hint hint-mouse">Drag to zoom</span>
 						<span class="loupe-hint hint-touch">Touch to zoom</span> -->
 					</div>
-					<figcaption class="exhibit-two-caption">Route de village, Auvers — Paul Cézanne. See the large face?</figcaption>
+					<figcaption>Route de village, Auvers — Paul Cézanne. See the large face?</figcaption>
 				</figure>
 			</div>
 
@@ -377,6 +384,10 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 			<div class="case-card reveal">
 				<h2>About</h2>
 				<p>I'm Bany Jaya — independent researcher, and author of <i>Nicky's Secret: A Christmas Story</i>, a children's picture book filled with fascinating details hidden in famous works of Christian art. As of this writing, nobody in the world knows about most of these details, which have remained secret for hundreds of years.</p>
+				<!-- Item 1 (round 4): BUY THE BOOK CTA, same .btn markup pattern as
+				     the "Pay the Quotation Fee" button further down this page —
+				     just the .btn-accent colour instead of .btn-primary. -->
+				<p style="margin-top:1.3rem;"><a href="bookshop_links.html" class="btn btn-accent">BUY THE BOOK</a></p>
 				<p>If you own, or are considering buying, a painting or sculpture, I offer the same kind of analysis directly — as an <a href="#work">Art Review</a>.</p>
 				<div class="case-links">
 					<a href="#two">Read about the book →</a>
@@ -396,14 +407,14 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 				<img class="book-cover" src="fullbook/pages/1.jpg" alt="Cover of Nicky's Secret: A Christmas Story">
 				<h2>Nicky's Secret: A Christmas Story</h2>
 				<p><i>Nicky's Secret</i> is written for 4-to-8-year-olds, in language conforming to both American and British English. Kids and adults alike tend to be surprised and delighted by the twists and turns the story takes, right up to the end.</p>
-				<p>Read the entire book for free in low-resolution, watch it being read aloud on video, or check the fact sheet for more.</p>
+				<p>Use the links below to read the entire book for free in low-resolution, watch it being read aloud on video, or to learn more about it from the fact sheet.</p>
 				<div class="case-links">
 					<a href="/fullbook/readfree.html">Read free →</a>
 					<a href="https://www.youtube.com/watch?v=O1Nt9e1qOdA">Watch it read aloud →</a>
 					<a href="https://www.youtube.com/@thehunchtrail">More videos →</a>
 					<a href="/info/fact_sheet_NickysSecret.pdf">Fact sheet (PDF) →</a>
 				</div>
-				<p style="margin-top:1.3rem;"><span class="mark">Want to buy it?</span>  <a href="bookshop_links.html"><strong>View bookshops worldwide carrying Nicky's Secret</strong></a>. In some countries you can even find the hardcover edition, which has noticeably better paper, binding and print quality than the softcover.</p>
+				<p style="margin-top:1.3rem;"><span class="mark mark-on-dark">Want to buy it?</span>  <a href="bookshop_links.html"><strong>View bookshops worldwide carrying Nicky's Secret</strong></a>. In some countries you can even find the hardcover edition, which has noticeably better paper, binding and print quality than the softcover.</p>
 			</div>
 		</div>
 	</section>

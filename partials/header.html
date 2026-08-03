@@ -23,13 +23,21 @@
 				<li><a href="{{NAV_BASE}}#pareidolia">Hidden Details</a></li>
 				<li><a href="{{NAV_BASE}}#one">About</a></li>
 				<li><a href="{{NAV_BASE}}#two">The Book</a></li>
-				<li><a href="{{NAV_BASE}}#work">Art Review &amp; Pricing</a></li>
+				<li><a href="{{NAV_BASE}}#work">Art Reviews</a></li>
 				<li><a href="{{NAV_BASE}}#contact">Contact</a></li>
 				<li><a href="{{NAV_BASE}}#faq">FAQ</a></li>
 			</ul>
 		</nav>
 		<div class="header-actions">
-			<a href="{{NAV_BASE}}#work" class="btn btn-primary">Start an Art Review</a>
+			<a href="{{NAV_BASE}}#work" class="btn btn-primary header-cta">Art Review Quote</a>
+			<!-- Item 2 (round 4): "BUY THE BOOK" CTA, adjacent to the Art Review
+			     Quote button above. Always a plain relative link to
+			     bookshop_links.html, with no NAV-BASE placeholder needed — unlike
+			     the button above, this isn't a same-page anchor into index.html,
+			     it's a real separate page that lives at the site root next to
+			     every other root-level page this header appears on, so a plain
+			     relative link resolves correctly everywhere already. -->
+			<a href="bookshop_links.html" class="btn btn-accent header-cta">BUY THE BOOK</a>
 			<button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu"><span></span></button>
 		</div>
 	</div>
