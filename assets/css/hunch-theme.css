@@ -147,8 +147,30 @@ section{padding:clamp(3.5rem,7vw,6.5rem) 0;}
 /* ============================================================
    HEADER (shared across every page)
 ============================================================ */
-#header{position:sticky;top:0;z-index:500;background:rgba(27,23,18,0.92);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1px solid transparent;transition:border-color .2s var(--ease),box-shadow .2s var(--ease);}
+#header{position:sticky;top:0;z-index:500;background:rgba(27,23,18,0.92);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1px solid transparent;transition:transform .28s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease);}
 #header.is-scrolled{border-color:var(--line-dark);box-shadow:0 6px 20px rgba(0,0,0,0.25);}
+
+/* ---------- Auto-hiding header (touchscreens only) ----------
+   Round 7, item 1. On a touchscreen the whole header bar slides up out
+   of the way as soon as the visitor scrolls down the page, and drops
+   back the moment they scroll back up. It is always on screen at page
+   load and whenever the page is at the top.
+
+   The .is-hidden class is added and removed by assets/js/hunch-theme.js,
+   which also refuses to hide the bar while the menu is open.
+
+   Scoped to touchscreens using the same "does this visitor have a real
+   mouse?" test the homepage already uses for the loupe and for its
+   mouse-vs-touch instruction copy — here in its negated form, so it
+   matches everything that is NOT hover-capable-with-a-fine-pointer. A
+   desktop mouse user keeps the header pinned exactly as before.
+
+   Only the .is-hidden rule needs to live inside the media query. The
+   transition is declared once on #header above, which costs a desktop
+   visitor nothing because no transform is ever applied there. */
+@media not all and (hover:hover) and (pointer:fine){
+	#header.is-hidden{transform:translateY(-100%);}
+}
 #header .bar{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding-top:.9rem;padding-bottom:.9rem;}
 /* Note: only top/bottom padding is set above (not the shorthand "padding")
    so the left/right padding from .wrap (1.5rem) still comes through — a
@@ -226,7 +248,18 @@ section{padding:clamp(3.5rem,7vw,6.5rem) 0;}
 .nav-toggle span::after{position:absolute;top:5px;}
 
 @media (max-width:860px){
-	.site-nav{position:fixed;inset:var(--header-h) 0 auto 0;background:var(--ink);border-bottom:1px solid var(--line-dark);padding:1rem 1.5rem 1.5rem;transform:translateY(-8px);opacity:0;pointer-events:none;transition:opacity .2s var(--ease),transform .2s var(--ease);max-height:calc(100vh - var(--header-h));overflow-y:auto;}
+	/* position:absolute, not fixed (changed in round 7, item 1).
+	   Fixed was fine while the header never moved, but a transformed
+	   ancestor becomes the containing block for its fixed-position
+	   descendants — so the moment the auto-hide above puts a transform
+	   on #header, a fixed panel would start measuring itself from the
+	   header box instead of from the viewport, and jump. Anchoring the
+	   panel to the header explicitly (top:100% means "immediately below
+	   the bar") renders in exactly the same place, and keeps the two
+	   locked together whatever the header is doing. #header is
+	   position:sticky, which counts as positioned, so it is already the
+	   containing block this needs — no extra rule required. */
+	.site-nav{position:absolute;top:100%;left:0;right:0;background:var(--ink);border-bottom:1px solid var(--line-dark);padding:1rem 1.5rem 1.5rem;transform:translateY(-8px);opacity:0;pointer-events:none;transition:opacity .2s var(--ease),transform .2s var(--ease);max-height:calc(100vh - var(--header-h));overflow-y:auto;}
 	.site-nav.is-open{opacity:1;transform:none;pointer-events:auto;}
 	.site-nav ul{flex-direction:column;align-items:flex-start;gap:1rem;}
 	.nav-toggle{display:flex;}

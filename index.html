@@ -41,7 +41,18 @@
 #hero h1{font-size:clamp(2rem,5vw,4.2rem);max-width:16ch;color:var(--parchment);}
 #hero .lede{color:rgba(239,230,211,0.86);font-size:1.15rem;}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.8rem;align-items:center;}
+/* max-width here is only the no-JavaScript fallback. Normally the
+   script at the foot of this page overrides both the left margin and
+   the width so this paragraph sits directly beneath the CTA buttons,
+   sharing their left and right edges — see "Items 2 and 3" there. */
 .hero-note{font-family:var(--font-mono);font-size:.78rem;color:rgba(239,230,211,0.66);margin-top:1rem;max-width:46ch;}
+/* Item 2: once the three CTAs no longer fit on one row, the block of
+   buttons is centred instead of hugging the left edge. Whether they
+   have wrapped is decided in JavaScript rather than at a guessed pixel
+   width, because the wrap point depends on the button copy and on
+   whether the web font has finished loading. Centring cannot change how
+   many buttons fit per row, so this can't feed back into that test. */
+.hero-ctas.is-wrapped{justify-content:center;}
 /* Item: below ~417px, the primary CTA's label ("Start with the Quotation
    Fee — US$99") is wider than the screen, and .btn's site-wide
    white-space:nowrap stops it shrinking — the whole hero was overflowing
@@ -525,15 +536,6 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 			</div>
 
 			<div class="legal-block reveal">
-				<h3>Limitations on Assurances</h3>
-				<div class="note-callout">
-					<p>An Art Review can't guarantee that an artist intentionally hid any detail I find because nobody can be certain of an artist's true intent, and interesting forms can appear by pure chance. I can't guarantee any effect, positive or negative, on your artwork's valuation, authenticity, or attribution, and I can't guarantee that every hidden detail the artist has included — or any detail at all — will be found. What you're paying for is a sincere, disciplined attempt to find what might be hidden in plain sight, applying pareidolia carefully and without slipping into delusion. These findings can then be taken to professional, accredited, or certified art professionals for a formal opinion on possible implications for valuation, authentication, and attribution of the artwork.</p>
-					<p>I am not a licensed, accredited, or certified art valuer, appraiser, or authenticator, and I hold no formal qualification in art history, connoisseurship, forensic art analysis, or valuation. My opinions are based on visual comparison and independent research and should not be relied upon as a substitute for formal authentication (e.g. by a recognised catalogue raisonné committee, forensic conservator, or accredited valuer) or a certified valuation (e.g. by a valuer accredited under the relevant professional body in your jurisdiction).</p>
-					<p>The opinions provided in an Art Review therefore reflect my personal research and visual analysis and do not constitute a formal appraisal, authentication, or valuation. Any decision to buy, sell, insure, restore, or otherwise act upon an artwork discussed on this site or in any consultation should be made only after obtaining independent advice from a suitably qualified and, where relevant, licensed professional. I accept no liability for any loss or damage arising from reliance on the opinions expressed therein.</p>
-				</div>
-			</div>
-
-			<div class="legal-block reveal">
 				<h3>Verification &amp; Eligibility</h3>
 				<p class="text-columns">Prior to providing a quote for an Art Review, we will typically ask for government photo ID and a selfie to confirm your identity, and we reserve the right to refuse service if verification is unsuccessful. Large transactions warrant controls to help detect money laundering and other illicit activity. We do not provide services to, or conduct business with, countries subject to Australian sanctions, or with countries, regions, or groups identified by the Australian government as high-risk for money laundering, terrorism financing, or proliferation financing. Any payments received from such jurisdictions or entities will be frozen or rejected in accordance with Australian law. <a href="#eligibility">See a non-exhaustive list of such countries in our FAQ</a>.</p>
 			</div>
@@ -545,6 +547,16 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 					<iframe src="https://www.youtube.com/embed/70mC4FUnCxg?si=zcgm6Tuym2fGgVpv" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 				</div>
 			</div>
+
+			<div class="legal-block reveal">
+				<h3>Limitations on Assurances</h3>
+				<div class="note-callout">
+					<p>An Art Review can't guarantee that an artist intentionally hid any detail I find because nobody can be certain of an artist's true intent, and interesting forms can appear by pure chance. I can't guarantee any effect, positive or negative, on your artwork's valuation, authenticity, or attribution, and I can't guarantee that every hidden detail the artist has included — or any detail at all — will be found. What you're paying for is a sincere, disciplined attempt to find what might be hidden in plain sight, applying pareidolia carefully and without slipping into delusion. These findings can then be taken to professional, accredited, or certified art professionals for a formal opinion on possible implications for valuation, authentication, and attribution of the artwork.</p>
+					<p>I am not a licensed, accredited, or certified art valuer, appraiser, or authenticator, and I hold no formal qualification in art history, connoisseurship, forensic art analysis, or valuation. My opinions are based on visual comparison and independent research and should not be relied upon as a substitute for formal authentication (e.g. by a recognised catalogue raisonné committee, forensic conservator, or accredited valuer) or a certified valuation (e.g. by a valuer accredited under the relevant professional body in your jurisdiction).</p>
+					<p>The opinions provided in an Art Review therefore reflect my personal research and visual analysis and do not constitute a formal appraisal, authentication, or valuation. Any decision to buy, sell, insure, restore, or otherwise act upon an artwork discussed on this site or in any consultation should be made only after obtaining independent advice from a suitably qualified and, where relevant, licensed professional. I accept no liability for any loss or damage arising from reliance on the opinions expressed therein.</p>
+				</div>
+			</div>
+
 		</div>
 	</section>
 
@@ -712,44 +724,75 @@ figure.mantegna-fig figcaption{font-size:.85rem;color:var(--ink-soft);margin-top
 		});
 	}
 
-	/* Item 3 (round 3): on wide-enough screens the two hero buttons
-	   sit on one row, and the .hero-note paragraph below them should
-	   wrap at the same right edge as that row instead of its own
-	   fixed 46ch cap (which the CSS still uses as the default — see
-	   #hero .hero-note above — for narrow screens where the buttons
-	   stack onto separate rows). Matching that edge exactly isn't
-	   something CSS alone can do here: the row's rendered width
-	   depends on the CTA copy, the web font that's loaded, and the
-	   viewport, so this measures the row directly rather than
-	   guessing a fixed breakpoint or pixel width that could drift out
-	   of sync with any of those. Whether the buttons are still on one
-	   row is likewise detected directly (by comparing their vertical
-	   position) rather than assumed from a screen-width breakpoint,
-	   so this keeps working correctly regardless of viewport size,
-	   font metrics, or future copy changes. */
+	/* Items 2 and 3 (round 7): the hero CTA row, and the note beneath
+	   it. Two things happen here, in this order, because the second
+	   depends on the first:
+
+	     2. If the buttons have wrapped onto more than one row, the
+	        .is-wrapped class centres them (see the CSS near the top of
+	        this page).
+	     3. The note below is then given the same left and right edges
+	        as the buttons — specifically, the left edge of whichever
+	        button sits furthest left and the right edge of whichever
+	        sits furthest right. Those edges move as the viewport
+	        resizes and as the buttons reflow, which is the behaviour
+	        asked for.
+
+	   Everything is measured from the rendered page rather than
+	   inferred from a pixel breakpoint. The point at which the buttons
+	   wrap depends on the button copy, the viewport, and which font
+	   has actually loaded, so any hard-coded breakpoint would drift
+	   out of sync the first time one of those changed.
+
+	   Note the ordering: .is-wrapped is applied BEFORE the edges are
+	   read, so the positions measured are the centred ones actually on
+	   screen. Reading them afterwards forces one layout pass, which is
+	   why this runs on resize rather than on scroll.
+
+	   The previous version of this block measured .hero-ctas itself.
+	   That element is a block-level flex container, so its box is the
+	   full width of the page wrapper no matter how wide the buttons
+	   inside it are — which is why the note's right edge did not line
+	   up with the last button. Measuring the buttons fixes that. */
 	var heroCtas = document.querySelector('.hero-ctas');
 	var heroNote = document.querySelector('.hero-note');
 	if (heroCtas && heroNote) {
-		var syncHeroNoteWidth = function(){
-			var ctaButtons = heroCtas.querySelectorAll('.btn');
-			var singleRow = ctaButtons.length < 2 ||
-				ctaButtons[0].offsetTop === ctaButtons[ctaButtons.length - 1].offsetTop;
-			if (singleRow) {
-				heroNote.style.maxWidth = heroCtas.getBoundingClientRect().width + 'px';
-			} else {
-				/* Buttons have wrapped onto separate rows (narrow
-				   screen) — clear the inline override and fall back
-				   to the CSS default. */
-				heroNote.style.maxWidth = '';
+		var syncHeroLayout = function(){
+			var buttons = heroCtas.querySelectorAll('.btn');
+			if (!buttons.length) return;
+
+			/* Have they wrapped? Compare the vertical position of the
+			   first and last button — a direct reading of the fact,
+			   rather than a guess from screen width. */
+			var wrapped = buttons[0].offsetTop !== buttons[buttons.length - 1].offsetTop;
+			heroCtas.classList.toggle('is-wrapped', wrapped);
+
+			/* Outermost left and right edges across every button, on
+			   whichever row each one ended up. */
+			var rowLeft = heroCtas.getBoundingClientRect().left;
+			var left = Infinity, right = -Infinity, box, i;
+			for (i = 0; i < buttons.length; i++) {
+				box = buttons[i].getBoundingClientRect();
+				if (box.left < left) left = box.left;
+				if (box.right > right) right = box.right;
 			}
+
+			/* Expressed relative to the row's own left edge, so the
+			   result is independent of page scroll position. When the
+			   buttons are NOT wrapped they start at the left edge, so
+			   the margin comes out as zero and the note simply ends at
+			   the last button — the single-row case, handled by the
+			   same two lines rather than a separate branch. */
+			heroNote.style.marginLeft = (left - rowLeft) + 'px';
+			heroNote.style.maxWidth = (right - left) + 'px';
 		};
-		syncHeroNoteWidth();
-		window.addEventListener('resize', syncHeroNoteWidth, {passive:true});
+		syncHeroLayout();
+		window.addEventListener('resize', syncHeroLayout, {passive:true});
 		/* Google Fonts loads with font-display:swap, so the CTA
 		   buttons can resize slightly once the real webfont replaces
 		   the fallback font — re-measure once that settles. */
 		if (document.fonts && document.fonts.ready) {
-			document.fonts.ready.then(syncHeroNoteWidth);
+			document.fonts.ready.then(syncHeroLayout);
 		}
 	}
 
