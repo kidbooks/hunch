@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nicky's Secret — Read Online Free | The Hunch Trail</title>
+<meta name="description" content="Read Nicky's Secret: A Christmas Story online for free, in low resolution. Turn the pages below.">
+
+<!--
+	viewport-fit=cover lets the book paint underneath the iPhone notch / home
+	indicator; the safe-area insets in reader.css keep the buttons clear of them.
+	NOTE: the previous version of this page had its viewport tag commented out,
+	which made iPhones render it at the 980px desktop default and zoom out.
+-->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- Chromeless launch when the reader is saved to an iOS/Android home screen. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1B1712">
+
+<link rel="manifest" href="manifest.json">
+<link rel="shortcut icon" href="pics/favicon.png" type="image/x-icon">
+<link rel="apple-touch-icon" href="pics/favicon.png">
+
+<!-- The cover is the only image needed for first paint, so it gets a head start. -->
+<link rel="preload" as="image" href="pages/1.jpg">
+
+<link rel="stylesheet" href="css/reader.css">
+</head>
+
+<body>
+
+<!--
+	#reader is the whole screen. Everything inside is absolutely positioned, so
+	the document never scrolls: the book is always "fullscreen" in the visual
+	sense even where the Fullscreen API is unavailable (notably iPhone Safari).
+-->
+<div id="reader" class="reader">
+
+	<!-- The book itself. Sized and positioned entirely from JS (see layout()). -->
+	<div id="stage" class="stage" aria-label="Nicky's Secret, page viewer">
+
+		<!-- Static pages currently lying flat. -->
+		<div class="page page--left"><img alt=""></div>
+		<div class="page page--right"><img alt=""></div>
+
+		<!--
+			The turning sheet. Three stacked layers, all occupying the same
+			rectangle as the sheet being turned:
+			  under  - the page revealed as the sheet lifts away
+			  front  - the face you were looking at, clipped to the unfolded part
+			  flap   - the reverse face, clipped to the folded part and mirrored
+			           across the fold line
+		-->
+		<div id="fold" class="fold" hidden>
+			<div class="fold__under"><img alt=""></div>
+			<div class="fold__front"><img alt=""><i class="fold__crease"></i></div>
+			<div class="fold__flap"><img alt=""><i class="fold__shade"></i></div>
+		</div>
+
+	</div>
+
+	<!-- Floating controls. Semi-transparent so the artwork stays readable. -->
+	<a class="ctl ctl--home" href="https://hunchtrail.com">&larr;&nbsp;The Hunch Trail</a>
+
+	<button class="ctl ctl--full" id="fullscreenBtn" type="button" hidden
+	        aria-label="Enter fullscreen">
+		<span class="ctl__icon" aria-hidden="true"></span>
+		<span class="ctl__label">Fullscreen</span>
+	</button>
+
+	<button class="nav nav--prev" id="prevBtn" type="button" aria-label="Previous page"></button>
+	<button class="nav nav--next" id="nextBtn" type="button" aria-label="Next page"></button>
+
+	<p class="counter" id="counter" aria-live="polite">1 / 40</p>
+
+	<!-- Shown until the first page image has decoded. -->
+	<div class="spinner" id="spinner" role="status" aria-label="Loading"></div>
+
+</div>
+
+<script src="js/reader.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "Nicky's Secret — Read Free",
+  "short_name": "Nicky's Secret",
+  "description": "Read Nicky's Secret: A Christmas Story online for free.",
+  "start_url": "readfree.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "any",
+  "background_color": "#1B1712",
+  "theme_color": "#1B1712",
+  "icons": [
+    { "src": "pics/favicon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,293 @@
+/* ==========================================================================
+   Nicky's Secret — read-free page reader
+   Vanilla CSS. No framework, no resets beyond what this page actually needs.
+
+   Layout rule of thumb: this file owns *appearance*; reader.js owns every
+   pixel measurement (stage size, page rectangles, fold geometry), because
+   those all have to agree with each other and with the clip-path maths.
+   ========================================================================== */
+
+:root{
+	--ink:        #1B1712;   /* page background, matches hunchtrail.com */
+	--paper:      #EFE6D3;   /* control text */
+	--gold:       #B98A32;   /* accent / hover */
+	--ctl-bg:     rgba(27,23,18,.62);
+	--ctl-border: rgba(239,230,211,.28);
+	--ctl-radius: 100px;
+	--gap:        14px;      /* inset of floating controls from the screen edge */
+
+	/* Safe-area insets. env() resolves to 0 where unsupported, which is fine. */
+	--safe-t: env(safe-area-inset-top,    0px);
+	--safe-r: env(safe-area-inset-right,  0px);
+	--safe-b: env(safe-area-inset-bottom, 0px);
+	--safe-l: env(safe-area-inset-left,   0px);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+
+html,body{
+	margin:0;
+	padding:0;
+	height:100%;
+	overflow:hidden;              /* the reader never scrolls */
+	overscroll-behavior:none;     /* kills iOS rubber-banding of the page */
+	background:var(--ink);
+	color:var(--paper);
+	font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Courier New",monospace;
+	-webkit-text-size-adjust:100%;
+}
+
+/* --------------------------------------------------------------------------
+   1. Screen and stage
+   -------------------------------------------------------------------------- */
+
+/* Height is set from JS (window.innerHeight) rather than 100vh, because iOS
+   Safari's 100vh is the *large* viewport and hides content behind the toolbar. */
+.reader{
+	position:fixed;
+	top:0; left:0; right:0;   /* height comes from JS, so no `bottom` here */
+	overflow:hidden;
+	-webkit-user-select:none; user-select:none;
+	-webkit-touch-callout:none;   /* no long-press "Save Image" sheet on iOS */
+}
+
+.stage{
+	position:absolute;
+	touch-action:none;            /* we handle every gesture over the book */
+	transform:translateZ(0);      /* own compositing layer; steadies the fold */
+	transition:transform .45s ease;   /* slides the book across on the covers */
+}
+
+/* --------------------------------------------------------------------------
+   2. Pages
+   Every page-sized box (static pages and all three fold layers) shares this
+   geometry so the fold lines up exactly with the flat pages behind it.
+   -------------------------------------------------------------------------- */
+
+.page,
+.fold__under,
+.fold__front,
+.fold__flap{
+	position:absolute;
+	top:0;
+	overflow:hidden;
+	background:#fff;              /* stops a dark flash before a page decodes */
+	/* The book's drop shadow. Deliberately a box-shadow on the flat page boxes
+	   rather than a filter on .stage: a filter would have to be recomposited on
+	   every frame of a turn, which is the sort of thing that costs an older
+	   iPhone 20fps. */
+	box-shadow:0 10px 34px rgba(0,0,0,.55);
+}
+
+.page img,
+.fold__under img,
+.fold__front img,
+.fold__flap img{
+	display:block;
+	width:100%;
+	height:100%;
+	pointer-events:none;
+	-webkit-user-drag:none;
+}
+
+.page[hidden],
+.fold__under[hidden]{ display:none; }
+
+/* Gutter shading: the darkening either side of the spine in a bound book.
+   Applied to every box that can act as a right-hand page — including the fold's
+   flat layers — so the shading does not blink out mid-turn. */
+.page::after,
+.fold__under::after,
+.fold__front::after{
+	content:"";
+	position:absolute;
+	inset:0;
+	pointer-events:none;
+	/* Spine to the left: darken the left edge. */
+	background:linear-gradient(to right, rgba(0,0,0,.22), rgba(0,0,0,0) 7%);
+}
+/* The left-hand page is bound on its right edge, so its gradient runs the other
+   way. Single-page mode has no left page, so nothing to special-case there. */
+.page--left::after{
+	background:linear-gradient(to left, rgba(0,0,0,.22), rgba(0,0,0,0) 7%);
+}
+
+/* --------------------------------------------------------------------------
+   3. The turning sheet
+   clip-path and transform are written by JS on every animation frame.
+   overflow must stay visible here: the folded corner legitimately extends
+   past the sheet's own rectangle, exactly as a real folded corner does.
+   -------------------------------------------------------------------------- */
+
+.fold{ position:absolute; inset:0; pointer-events:none; }
+.fold[hidden]{ display:none; }
+
+.fold__front,
+.fold__flap{ overflow:visible; }
+
+/* The flap shows the sheet's reverse face. Seen from the front of the book that
+   face reads mirrored, hence scaleX(-1) on its image. */
+.fold__flap > img{ transform:scaleX(-1); }
+
+.fold__flap{
+	transform-origin:0 0;         /* the reflection matrix assumes this origin */
+	filter:drop-shadow(0 1px 3px rgba(0,0,0,.5));
+}
+
+/* Crease and shade are thin gradient bands laid along the fold line: the
+   crease darkens the flat page just before the fold, the shade darkens the
+   lifted flap just after it. Their size and transform come from JS. */
+.fold__crease,
+.fold__shade{
+	position:absolute;
+	top:0; left:0;
+	transform-origin:0 0;
+	pointer-events:none;
+}
+.fold__crease{ background:linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.30)); }
+.fold__shade { background:linear-gradient(rgba(0,0,0,.42), rgba(0,0,0,0)); }
+
+/* --------------------------------------------------------------------------
+   4. Floating controls
+   All four sit above the book with a translucent backing so the artwork
+   underneath stays readable. They dim rather than vanish when idle, so the
+   way back to the site is always findable.
+   -------------------------------------------------------------------------- */
+
+.ctl,
+.nav,
+.counter{
+	position:absolute;
+	z-index:10;
+	margin:0;
+	font:500 .72rem/1 inherit;
+	letter-spacing:.05em;
+	text-transform:uppercase;
+	color:var(--paper);
+	background:var(--ctl-bg);
+	border:1px solid var(--ctl-border);
+	border-radius:var(--ctl-radius);
+	-webkit-backdrop-filter:blur(6px);
+	backdrop-filter:blur(6px);
+	transition:opacity .35s ease, background-color .15s ease, border-color .15s ease;
+}
+
+.ctl{
+	display:inline-flex;
+	align-items:center;
+	gap:.5em;
+	padding:.62em 1.05em;
+	text-decoration:none;
+	cursor:pointer;
+	-webkit-appearance:none;
+	appearance:none;
+}
+
+.ctl--home{ top:calc(var(--gap) + var(--safe-t)); left:calc(var(--gap) + var(--safe-l)); }
+.ctl--full{ top:calc(var(--gap) + var(--safe-t)); right:calc(var(--gap) + var(--safe-r)); }
+
+/* Fullscreen glyph: four corner brackets, drawn with one element. */
+.ctl__icon{
+	width:.85em; height:.85em;
+	border:2px solid currentColor;
+	border-radius:1px;
+	/* Cut the middle of each edge away to leave four corners. */
+	-webkit-mask:linear-gradient(#000 0 0) 0 0/35% 35% no-repeat,
+	             linear-gradient(#000 0 0) 100% 0/35% 35% no-repeat,
+	             linear-gradient(#000 0 0) 0 100%/35% 35% no-repeat,
+	             linear-gradient(#000 0 0) 100% 100%/35% 35% no-repeat;
+	        mask:linear-gradient(#000 0 0) 0 0/35% 35% no-repeat,
+	             linear-gradient(#000 0 0) 100% 0/35% 35% no-repeat,
+	             linear-gradient(#000 0 0) 0 100%/35% 35% no-repeat,
+	             linear-gradient(#000 0 0) 100% 100%/35% 35% no-repeat;
+}
+
+/* Previous / next chevrons, vertically centred against the screen edges. */
+.nav{
+	top:50%;
+	width:44px;                   /* 44px is Apple's minimum touch target */
+	height:64px;
+	margin-top:-32px;
+	padding:0;
+	cursor:pointer;
+	-webkit-appearance:none;
+	appearance:none;
+	border-radius:8px;
+}
+.nav--prev{ left:calc(var(--gap) + var(--safe-l)); }
+.nav--next{ right:calc(var(--gap) + var(--safe-r)); }
+.nav[disabled]{ opacity:0 !important; pointer-events:none; }
+
+/* Chevron glyph: a rotated square with two borders. */
+.nav::before{
+	content:"";
+	position:absolute;
+	top:50%; left:50%;
+	width:11px; height:11px;
+	border:solid currentColor;
+	border-width:2px 2px 0 0;
+}
+.nav--next::before{ transform:translate(-65%,-50%) rotate(45deg); }
+.nav--prev::before{ transform:translate(-35%,-50%) rotate(-135deg); }
+
+.counter{
+	left:50%;
+	bottom:calc(var(--gap) + var(--safe-b));
+	transform:translateX(-50%);
+	padding:.55em 1em;
+	white-space:nowrap;
+}
+
+/* Pointer devices only — avoids sticky :hover states on touchscreens. */
+@media (hover:hover) and (pointer:fine){
+	.ctl:hover,
+	.nav:hover{ background:var(--gold); border-color:var(--gold); color:var(--ink); }
+}
+
+/* Idle dimming. Controls fade back but stay visible and clickable. */
+.reader.is-idle .ctl,
+.reader.is-idle .nav,
+.reader.is-idle .counter{ opacity:.22; }
+
+/* Narrow screens: drop the fullscreen button's text label, and pull the
+   controls tighter to the edges. */
+@media (max-width:560px){
+	:root{ --gap:9px; }
+	.ctl__label{ display:none; }
+	.ctl--full{ padding:.62em; }
+	.ctl,.counter{ font-size:.66rem; }
+}
+
+/* Landscape phones are short: shrink the chevrons so they do not crowd the book. */
+@media (max-height:430px){
+	.nav{ height:52px; margin-top:-26px; }
+}
+
+/* --------------------------------------------------------------------------
+   5. Loading spinner
+   -------------------------------------------------------------------------- */
+
+.spinner{
+	position:absolute;
+	top:50%; left:50%;
+	width:26px; height:26px;
+	margin:-13px 0 0 -13px;
+	border:2px solid rgba(239,230,211,.25);
+	border-top-color:var(--paper);
+	border-radius:50%;
+	animation:spin .8s linear infinite;
+}
+.spinner[hidden]{ display:none; }
+
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+/* --------------------------------------------------------------------------
+   6. Reduced motion
+   The fold still works — it is the *page-turn animation* that is shortened,
+   which reader.js reads from this same media query.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion:reduce){
+	.spinner{ animation-duration:2s; }
+	.stage,.ctl,.nav,.counter{ transition:none; }
+}
