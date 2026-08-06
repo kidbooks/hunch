@@ -124,10 +124,38 @@ def strip_leading_comment(partial_text, breadcrumb):
 
 
 def read(path):
-	"""Read a UTF-8 text file, with a clear error if it's missing."""
+	"""
+	Read a UTF-8 text file, with a clear error if it's missing.
+
+	This uses Python's default universal-newline handling, so whatever
+	line ending the source file happens to use — CRLF, LF, or a mix —
+	arrives here normalised to "\n". That is what we want: the build
+	should not care how src/ and partials/ were saved.
+	"""
 	if not path.exists():
 		sys.exit(f"ERROR: expected file not found: {path}")
 	return path.read_text(encoding="utf-8")
+
+
+def write(path, text):
+	"""
+	Write a built page as UTF-8 with CRLF line endings, on every platform.
+
+	The obvious call here — path.write_text(text, encoding="utf-8") —
+	opens the file in text mode with newline=None, and Python then
+	translates every "\n" to os.linesep. That silently makes the output
+	depend on the machine doing the build: CRLF on Windows, LF on Linux
+	or macOS. Rebuilding the same unchanged source on a different OS
+	then rewrites every byte of every page, which buries real content
+	changes in a whole-file diff.
+
+	Passing newline explicitly removes the platform from the equation.
+	CRLF is the choice here because that is what the checked-in pages
+	use; switching the whole site to LF is equally valid, but pick one
+	and pin it rather than leaving it to os.linesep.
+	"""
+	with path.open("w", encoding="utf-8", newline="\r\n") as handle:
+		handle.write(text)
 
 
 def build_page(src_path, header_partial, footer_partial):
@@ -198,7 +226,7 @@ def main():
 	for src_path in src_pages:
 		output = build_page(src_path, header_partial, footer_partial)
 		output_path = ROOT / src_path.name
-		output_path.write_text(output, encoding="utf-8")
+		write(output_path, output)
 		print(f"  {src_path.relative_to(ROOT)}  ->  {output_path.relative_to(ROOT)}")
 
 	print("\nDone. The root-level .html files above are now up to date.")
