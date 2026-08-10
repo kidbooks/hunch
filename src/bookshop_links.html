@@ -7,9 +7,7 @@
 <meta name="description" content="Bookshops carrying Nicky's Secret: A Christmas Story around the world, by country." />
 <link rel="canonical" href="https://hunchtrail.com/bookshop_links.html" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Libre+Franklin:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/hunch-theme.css">
 <style>
 .shop-country{margin-bottom:2.6rem;padding-bottom:2.6rem;border-bottom:1px solid var(--line);}
@@ -17,6 +15,14 @@
 .shop-country h3{margin-bottom:1rem;}
 .shop-format{font-family:var(--font-mono);text-transform:uppercase;font-size:.78rem;letter-spacing:.06em;color:var(--oxblood);margin:1.2rem 0 .6rem;}
 .shop-format:first-of-type{margin-top:0;}
+/* Nested per-country headings inside the EU block. Deliberately NOT
+   styled like .shop-format (which labels BOOK FORMAT — "Hardcover" /
+   "Softcover" — in oxblood mono caps) so a reader scanning the EU
+   section can't mistake a country name for a format label. Uses the
+   same serif display font as the top-level .shop-country h3, just
+   smaller, with a left rule to read as a nested sub-heading. */
+.shop-subcountry{font-family:var(--font-display);color:black!important;font-weight:600;font-size:1.02rem;margin:1.7rem 0 .6rem;padding-left:.8rem;border-left:3px solid var(--gold);}
+.shop-subcountry:first-of-type{margin-top:.5rem;}
 .shop-list{list-style:none;margin:0 0 .6rem;padding:0;display:flex;flex-wrap:wrap;gap:.6rem;}
 .shop-list li{margin:0;}
 .shop-list a{display:inline-block;background:var(--white);border:1px solid var(--line);border-radius:100px;padding:.5em 1.1em;font-size:.92rem;text-decoration:none;color:var(--ink-soft);transition:all .15s var(--ease);}
@@ -35,7 +41,7 @@
 		<div class="wrap">
 			<p class="eyebrow">Nicky's Secret</p>
 			<h1>Where to Buy the Book</h1>
-			<p class="lede">Links correct as at 14 July 2026.<br>NOTE: The hardcover edition is only available in the USA and Australia.</p>
+			<p class="lede">Links correct as at 10 August 2026.<br>NOTE: The hardcover edition is only available in the USA and Australia.</p>
 		</div>
 	</section>
 
@@ -47,6 +53,7 @@
 				<a href="#UK">UK</a>
 				<a href="#CA">Canada</a>
 				<a href="#AUS">Australia</a>
+				<a href="#ZA">South Africa</a>
 				<a href="#IN">India</a>
 			</nav>
 
@@ -68,16 +75,52 @@
 			<div class="shop-country" id="EU">
 				<h3>European Union</h3>
 				<p class="shop-format">Softcover</p>
+
+				<h4 class="shop-subcountry">Germany</h4>
 				<ul class="shop-list">
-					<li><a href="https://www.adlibris.com/sv/bok/nickys-secret-9780648964643">Adlibris</a></li>
-					<li><a href="https://www.libristo.eu/en/book/nicky-s-secret_52231803">Libristo</a></li>
-					<li><a href="https://www.zvab.com/servlet/BookDetailsPL?bi=32441615684">ZVAB</a></li>
-					<li><a href="https://www.ibs.it/nicky-s-secret-christmas-story-libro-inglese-bany-jaya/e/9780648964643">IBS.it</a></li>
 					<li><a href="https://www.thalia.de/shop/home/artikeldetails/A1079667272">Thalia</a></li>
 					<li><a href="https://www.hugendubel.de/de/taschenbuch/bany_jaya-nicky_s_secret-53268099-produkt-details.html">Hugendubel</a></li>
-					<li><a href="https://www.abebooks.co.uk/Nickys-Secret-Christmas-Story-Jaya-Bany/32461723298/bd">AbeBooks</a></li>
+					<li><a href="https://www.zvab.com/servlet/BookDetailsPL?bi=32441615684">ZVAB</a></li>
 				</ul>
+				<p class="amazon-note"><a href="https://www.amazon.de/Nickys-Secret-Christmas-Bany-Jaya/dp/0648964647">Amazon (Prime)</a> — please note that this version is printed by Amazon and uses lower quality paper and binding.</p>
+
+				<h4 class="shop-subcountry">France</h4>
 				<p class="amazon-note"><a href="https://www.amazon.fr/dp/0648964647">Amazon (Prime)</a> — please note that this version is printed by Amazon and uses lower quality paper and binding.</p>
+
+				<h4 class="shop-subcountry">Spain</h4>
+				<p class="amazon-note"><a href="https://www.amazon.es/dp/0648964647">Amazon (Prime)</a> — please note that this version is printed by Amazon and uses lower quality paper and binding.</p>
+
+				<h4 class="shop-subcountry">The Netherlands</h4>
+				<ul class="shop-list">
+					<li><a href="https://www.bol.com/nl/nl/p/nicky-s-secret/9300000281089531/?cid=1786325211058-1807832392872">bol.com</a></li>
+					<li><a href="https://www.saxo.com/dk/nickys-secret_bog_9780648964643">Saxo</a></li>
+				</ul>
+
+				<h4 class="shop-subcountry">Sweden</h4>
+				<ul class="shop-list">
+					<li><a href="https://www.adlibris.com/sv/bok/nickys-secret-9780648964643">Adlibris</a></li>
+				</ul>
+
+				<h4 class="shop-subcountry">Switzerland</h4>
+				<ul class="shop-list">
+					<li><a href="https://www.orellfuessli.ch/shop/home/artikeldetails/A1079667272">Orell Fuessli</a></li>
+					<li><a href="https://www.exlibris.ch/de/buecher-buch/english-books/bany-jaya/nickys-secret/id/9780648964643/">Ex Libris</a></li>
+				</ul>
+
+				<h4 class="shop-subcountry">Italy</h4>
+				<ul class="shop-list">
+					<li><a href="https://www.ibs.it/nicky-s-secret-christmas-story-libro-inglese-bany-jaya/e/9780648964643">IBS.it</a></li>
+					<li><a href="https://www.lafeltrinelli.it/nicky-s-secret-christmas-story-libro-inglese-bany-jaya/e/9780648964643">Feltrinelli</a></li>
+				</ul>
+
+				<h4 class="shop-subcountry">Poland</h4>
+				<p class="amazon-note"><a href="https://www.amazon.pl/dp/0648964647">Amazon (Prime)</a> — please note that this version is printed by Amazon and uses lower quality paper and binding.</p>
+
+				<h4 class="shop-subcountry">Czechia</h4>
+				<ul class="shop-list">
+					<li><a href="https://www.libristo.eu/en/book/nicky-s-secret_52231803">Libristo</a></li>
+				</ul>
+
 			</div>
 
 			<div class="shop-country" id="UK">
@@ -121,6 +164,22 @@
 					<li><a href="https://www.amazon.com.au/gp/product/0648964647/ref=sw_img_1?smid=A2EK5CEPKFU763&amp;psc=1">Amazon (not Prime)</a></li>
 				</ul>
 				<p class="amazon-note"><a href="https://www.amazon.com.au/Nickys-Secret-Christmas-Bany-Jaya/dp/0648964647/ref=sr_1_3">Amazon (Prime)</a> — please note that this version is printed by Amazon and uses lower quality paper and binding.</p>
+			</div>
+
+			<div class="shop-country" id="NZ">
+				<h3>New Zealand</h3>
+				<p class="shop-format">Softcover</p>
+				<ul class="shop-list">
+					<li><a href="https://www.fishpond.co.nz/Books/Nickys-Secret-Bany-Jaya-Anastasiia-Hryvtsova/9780648964643">Fishpond</a></li>
+				</ul>
+			</div>
+
+			<div class="shop-country" id="ZA">
+				<h3>South Africa</h3>
+				<p class="shop-format">Softcover</p>
+				<ul class="shop-list">
+					<li><a href="https://exclusivebooks.co.za/products/9780648964643">Exclusive Books</a></li>
+				</ul>
 			</div>
 
 			<div class="shop-country" id="IN">
