@@ -20,7 +20,9 @@
 <meta name="theme-color" content="#1B1712">
 
 <link rel="manifest" href="manifest.json">
-<link rel="shortcut icon" href="pics/favicon.png" type="image/x-icon">
+<!-- rel="icon" (not the obsolete "shortcut icon"), and the real MIME type:
+     the file is a PNG, so declaring it as image/x-icon was simply wrong. -->
+<link rel="icon" href="pics/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="pics/favicon.png">
 
 <!-- The cover is the only image needed for first paint, so it gets a head start. -->
@@ -73,7 +75,10 @@
 	<button class="nav nav--prev" id="prevBtn" type="button" aria-label="Previous page"></button>
 	<button class="nav nav--next" id="nextBtn" type="button" aria-label="Next page"></button>
 
-	<p class="counter" id="counter" aria-live="polite">1 / 40</p>
+	<!-- Filled in by reader.js on first layout. Deliberately left blank here:
+	     a hard-coded "1 / 40" is a second copy of PAGE_COUNT that would quietly
+	     go wrong the day the book gains or loses a page. -->
+	<p class="counter" id="counter" aria-live="polite"></p>
 
 	<!-- Shown until the first page image has decoded. -->
 	<div class="spinner" id="spinner" role="status" aria-label="Loading"></div>

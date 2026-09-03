@@ -24,6 +24,19 @@
    the spine, because paper cannot stretch. That means a whole turn is just
    one angle sweeping 0 -> PI, which is also what the tap/keyboard/button
    turns animate.
+
+   PORTRAIT MODE HAS NO PAGE-TURN ANIMATION
+   ----------------------------------------
+   The fold above is a model of a bound two-page spread: a sheet lifting
+   away from the facing page next to it. In portrait the screen shows one
+   page at a time, so there is no facing page for the sheet to lift away
+   from, and the effect no longer resembles a real book turning at all.
+   Portrait therefore swaps straight to the next page with no fold and no
+   animation, however the turn was asked for — button, arrow key or swipe.
+
+   The behaviour is controlled by the single FLIP_IN_PORTRAIT switch below.
+   Setting it to true restores the old behaviour everywhere at once; nothing
+   else in this file needs changing, and no code path has been deleted.
    ========================================================================== */
 
 (function () {
@@ -42,6 +55,11 @@
 	var IDLE_MS          = 3500;                           // dim the controls after this long
 	var DRAG_SLOP        = 6;                              // px of movement before a press counts as a drag
 	var SWIPE_MIN        = 45;                             // px of travel that counts as a swipe
+
+	/* Animate the page turn in single-page (portrait) mode? See the note at
+	   the top of this file. false = pages swap instantly there; the fold is
+	   used only for the two-page spread, where it models something real. */
+	var FLIP_IN_PORTRAIT = false;
 
 	var LEAVES = Math.ceil(PAGE_COUNT / 2);                // physical sheets of paper
 
@@ -95,6 +113,11 @@
 	function now() { return Date.now(); }
 
 	function easeOut(t) { return 1 - Math.pow(1 - t, 3); }   // cubic ease-out
+
+	/* The one place that decides whether a turn is drawn as a folding sheet.
+	   Both the button/key/swipe path and the drag path ask this, so they can
+	   never disagree about which mode is animated. */
+	function foldsHere() { return spread || FLIP_IN_PORTRAIT; }
 
 	/* Put page n into a page-sized box, or hide the box when n is 0. */
 	function setPage(box, n) {
@@ -454,6 +477,18 @@
 	/* A complete turn triggered by a button, key, tap or swipe. */
 	function turnPage(dir) {
 		if (animRAF || fold) { return; }
+
+		/* Portrait: change the page and redraw, with no fold and no
+		   animation. foldPages() is still consulted so that the end-stops
+		   are decided in exactly one place — a null result means there is
+		   no page to turn to, whichever mode we are in. */
+		if (!foldsHere()) {
+			if (!foldPages(dir)) { return; }
+			page += dir;
+			render();
+			return;
+		}
+
 		if (!beginFold(dir, sheet.h)) { return; }        // fold the bottom corner
 		animateFold(dir > 0 ? Math.PI : 0, true);
 	}
@@ -476,6 +511,12 @@
 		var lx = x - stageOff.x;                    // stage-local coordinates
 		var ly = y - stageOff.y;
 		if (ly < 0 || ly > stageBox.h) { return; }  // pressed above or below the book
+
+		/* Portrait has no fold to drag, so every press is a potential
+		   swipe. `press` is deliberately still live at this point, so
+		   onUp()'s swipe test below runs exactly as it always did — only
+		   the corner peel is skipped. */
+		if (!foldsHere()) { return; }
 
 		/* Grab zones: the outer edges of the book start a fold immediately.
 		   A press in the middle is treated as a swipe instead. */
